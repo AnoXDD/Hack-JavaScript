@@ -4,7 +4,7 @@ import {
 } from "../enum/ActionType";
 import Input from "../data/Input";
 
-export const initialState = new Input();
+const initialState = new Input();
 
 /**
  * Gets the history with a delta (go back or forward)
@@ -24,21 +24,41 @@ function getHistory(state, delta) {
     .set("historyIndex", historyIndex);
 }
 
+function syncLastCommand(state) {
+  let history = state.get("history");
+  if (state.get("historyIndex") === history.size-1) {
+    // This is the last command, sync it
+    history = history.set(history.size - 1, state.get("value"));
+    return state.set("history", history);
+  }
+
+  return state;
+}
+
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case USER_TYPE:
-      return state.set("value", state.get("value") + action.letter);
+      return syncLastCommand(state.set("value", state.get("value") + action.letter));
     case USER_BACKSPACE:
-      return state.set("value",
-        state.get("value").slice(0, -1));
+      return syncLastCommand(state.set("value",
+        state.get("value").slice(0, -1)));
     case USER_INPUT:
+      let history = state.get("history");
       let value = state.get("value");
-      let history = state.get("history").push(value);
-      let historyIndex = history.size;
+
+      history = history.set(history.size - 1, value);
+
+      // Do not store if the new command is the same as the last
+      // command in the history
+      if (history.size > 1 && history.get(history.size - 2) === state.get("value")) {
+        history = history.pop();
+      }
+
+      history = history.push("");
 
       return state.set("value", "")
         .set("history", history)
-        .set("historyIndex", historyIndex);
+        .set("historyIndex", history.size-1);
     case USER_PREV_COMMAND:
       return getHistory(state, -1);
     case USER_NEXT_COMMAND:

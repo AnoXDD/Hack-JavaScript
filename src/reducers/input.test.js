@@ -39,7 +39,7 @@ describe("History", () => {
   });
 
   test("History is stored", () => {
-    expect(input.get("history").toJS()).toEqual(["1", "2", "3"]);
+    expect(input.get("history").toJS()).toEqual(["1", "2", "3", ""]);
     expect(input.get("historyIndex")).toBe(3);
   });
 
@@ -67,11 +67,12 @@ describe("History", () => {
     input = reduce(input, prevCommand());
     input = reduce(input, send());
 
-    expect(input.get("history").toJS()).toEqual(["1", "2", "3", "2"]);
+    expect(input.get("history").toJS())
+      .toEqual(["1", "2", "3", "2", ""]);
     expect(input.get("historyIndex")).toBe(4);
   });
 
-  test("Invalid history access",()=>{
+  test("Invalid history access", () => {
     input = reduce(input, nextCommand());
     expect(input.get("value")).toBe("");
 
@@ -81,5 +82,20 @@ describe("History", () => {
     input = reduce(input, prevCommand());
     input = reduce(input, prevCommand());
     expect(input.get("value")).toBe("1");
+  });
+
+  test("Save current command when browsing history", () => {
+    input = reduce(input, type("0"));
+    input = reduce(input, prevCommand());
+    input = reduce(input, nextCommand());
+
+    expect(input.get("value")).toBe("0");
+  });
+
+  test("Do not store duplicate command", () => {
+    input = reduce(input, prevCommand());
+    input = reduce(input, send());
+
+    expect(input.get("history").toJS()).toEqual(["1", "2", "3", ""]);
   })
 });
