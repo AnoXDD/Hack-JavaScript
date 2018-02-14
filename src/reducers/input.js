@@ -26,7 +26,7 @@ function getHistory(state, delta) {
 
 function syncLastCommand(state) {
   let history = state.get("history");
-  if (state.get("historyIndex") === history.size-1) {
+  if (state.get("historyIndex") === history.size - 1) {
     // This is the last command, sync it
     history = history.set(history.size - 1, state.get("value"));
     return state.set("history", history);
@@ -39,10 +39,18 @@ export default function reduce(state = initialState, action) {
   switch (action.type) {
     case USER_TYPE:
       return syncLastCommand(state.set("value", state.get("value") + action.letter));
-    case USER_BACKSPACE:
-      return syncLastCommand(state.set("value",
-        state.get("value").slice(0, -1)));
-    case USER_INPUT:
+    case USER_BACKSPACE: {
+      let value = state.get("value");
+
+      if (action.deleteWord) {
+        value = value.split(" ").slice(0, -1).join(" ");
+      } else {
+        value = value.slice(0, -1);
+      }
+
+      return syncLastCommand(state.set("value", value));
+    }
+    case USER_INPUT: {
       let history = state.get("history");
       let value = state.get("value");
 
@@ -50,7 +58,8 @@ export default function reduce(state = initialState, action) {
 
       // Do not store if the new command is the same as the last
       // command in the history
-      if (history.size > 1 && history.get(history.size - 2) === state.get("value")) {
+      if (history.size > 1 && history.get(history.size - 2) === state.get(
+          "value")) {
         history = history.pop();
       }
 
@@ -58,7 +67,8 @@ export default function reduce(state = initialState, action) {
 
       return state.set("value", "")
         .set("history", history)
-        .set("historyIndex", history.size-1);
+        .set("historyIndex", history.size - 1);
+    }
     case USER_PREV_COMMAND:
       return getHistory(state, -1);
     case USER_NEXT_COMMAND:

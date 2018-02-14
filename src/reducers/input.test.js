@@ -14,14 +14,39 @@ test("Type a letter", () => {
   expect(input.get("value")).toBe("dd");
 });
 
-test("Backspace", () => {
-  let input = new Input();
+describe("Backspace", () => {
+  test("Backspace on empty", () => {
+    let input = new Input();
 
-  input = reduce(input, type("d"));
-  input = reduce(input, type("d"));
-  input = reduce(input, backspace());
+    input = reduce(input, backspace());
+    expect(input.get("value")).toBe("");
 
-  expect(input.get("value")).toBe("d");
+    input = reduce(input, backspace(true));
+    expect(input.get("value")).toBe("");
+  });
+
+  test("Backspace without ctrl", () => {
+    let input = new Input();
+
+    input = reduce(input, type("d"));
+    input = reduce(input, type("d"));
+    input = reduce(input, backspace());
+
+    expect(input.get("value")).toBe("d");
+  });
+
+  test("Backspace with ctrl", () => {
+    let input = new Input();
+
+    input = reduce(input, type("dd dd dd dd"));
+    input = reduce(input, backspace(true));
+
+    expect(input.get("value")).toBe("dd dd dd");
+
+    input = reduce(input, backspace(true));
+
+    expect(input.get("value")).toBe("dd dd");
+  });
 });
 
 describe("History", () => {

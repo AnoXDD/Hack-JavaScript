@@ -10,9 +10,10 @@ export function type(letter) {
   };
 }
 
-export function backspace() {
+export function backspace(deleteWord = false) {
   return {
     type: USER_BACKSPACE,
+    deleteWord,
   };
 }
 

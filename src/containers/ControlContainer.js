@@ -26,14 +26,12 @@ class ControlContainer extends Component {
   handleKeyDown(e) {
     let {key} = e;
 
-
     // todo control-delete
     // todo control-c delete
-    // todo up/down
     if (key.length === 1) {
       store.dispatch(type(key));
     } else if (key === "Backspace") {
-      store.dispatch(backspace());
+      store.dispatch(backspace(e.ctrlKey));
     } else if (key === "Enter") {
       store.dispatch(send());
     } else if (key === "ArrowUp") {
