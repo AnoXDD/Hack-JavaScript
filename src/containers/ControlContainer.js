@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import store from "../store";
-import {type, backspace, send} from "../enum/Action";
+import {
+  type, backspace, send, prevCommand,
+  nextCommand
+} from "../enum/Action";
 
 class ControlContainer extends Component {
 
@@ -23,12 +26,20 @@ class ControlContainer extends Component {
   handleKeyDown(e) {
     let {key} = e;
 
+
+    // todo control-delete
+    // todo control-c delete
+    // todo up/down
     if (key.length === 1) {
       store.dispatch(type(key));
     } else if (key === "Backspace") {
       store.dispatch(backspace());
     } else if (key === "Enter") {
       store.dispatch(send());
+    } else if (key === "ArrowUp") {
+      store.dispatch(prevCommand());
+    } else if (key === "ArrowDown") {
+      store.dispatch(nextCommand());
     } else {
       console.log("keydown", key);
     }

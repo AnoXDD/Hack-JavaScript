@@ -1,5 +1,4 @@
 import reducer from "../reducers";
-import State from "../data/State";
 import {createStore} from "redux";
 
 

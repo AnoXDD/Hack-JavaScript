@@ -15,7 +15,7 @@ class CommandContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    value: state.input,
+    value: state.input.get("value"),
   };
 }
 

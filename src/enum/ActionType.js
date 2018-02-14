@@ -1,3 +1,5 @@
 export const USER_TYPE = "USER_TYPE";
 export const USER_BACKSPACE = "USER_BACKSPACE";
 export const USER_INPUT = "USER_INPUT";
+export const USER_PREV_COMMAND = "USER_PREV_COMMAND";
+export const USER_NEXT_COMMAND = "USER_NEXT_COMMAND";

@@ -1,4 +1,25 @@
 body, html {
   margin: 0;
   font-family: monospace;
+  background: black;
+  color: #33ff66;
+  overflow: hidden;
+}
+
+.App {
+  padding: 20px;
+  box-sizing: content-box;
+}
+
+.command-container {
+  white-space: nowrap;
+  overflow: hidden;
+
+  &:before {
+    content: "> ";
+  }
+
+  &:after {
+    content: "_";
+  }
 }
