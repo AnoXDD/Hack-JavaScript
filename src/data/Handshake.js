@@ -1,8 +1,8 @@
 import Immutable from "immutable";
 
 const Handshake = new Immutable.Record({
-  input    : "",
-  output   : "",
+  input    : null,
+  output   : null,
   timestamp: Date.now(),
 });
 

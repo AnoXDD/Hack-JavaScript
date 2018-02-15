@@ -13,8 +13,8 @@ class OutputContainer extends Component {
           <div key={h.timestamp} className="handshake">
             {h.input ? <div
               className="input command-line">{h.input}</div> : null}
-            <div className="output">{h.output.split("\n")
-              .map((p, i) => <p key={i}>{p}</p>)}</div>
+            {h.output ? <div className="output">{h.output.split("\n")
+              .map((p, i) => <p key={i}>{p}</p>)}</div> : null}
           </div>
         )}
       </div>

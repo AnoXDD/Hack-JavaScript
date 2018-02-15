@@ -1,11 +1,19 @@
+import Immutable from "immutable";
+
 import Output from "../data/Output";
 import INTERFACES from "../enum/Interfaces";
 import reduceInterface from "./interface";
 import {USER_INPUT} from "../enum/ActionType";
 import Handshake from "../data/Handshake";
+import STRING from "../enum/String";
 
 const initState = new Output({
-  interface: INTERFACES.INTRO_WELCOME,
+  interface : INTERFACES.INTRO_WELCOME,
+  handshakes: new Immutable.List([
+    new Handshake({
+      output: STRING.INTRO_WELCOME,
+    })
+  ])
 });
 
 export default function reduce(state = initState, action) {
