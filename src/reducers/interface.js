@@ -1,4 +1,7 @@
-import {COMMAND_CLS, COMMAND_HELP} from "../enum/Commands";
+import {
+  COMMAND_CLS, COMMAND_HELP,
+  COMMAND_RESET
+} from "../enum/Commands";
 import INTERFACES from "../enum/Interfaces";
 import {USER_INPUT} from "../enum/ActionType";
 
@@ -86,12 +89,15 @@ function execCommand(interf, command, cmd) {
 
 function execUniversalCommandIfNecessary(interf, cmd) {
   // Print help
-  if (cmd[0] === COMMAND_HELP) {
-    return interf.set("feedback", printHelp(interf, cmd[1]));
-  }
+  switch (cmd[0]) {
+    case COMMAND_HELP:
+      return interf.set("feedback", printHelp(interf, cmd[1]));
+    case COMMAND_CLS:
+      return interf.set("feedback", COMMAND_CLS);
+    case COMMAND_RESET:
 
-  if (cmd[0] === COMMAND_CLS) {
-    return interf.set("feedback", COMMAND_CLS);
+    default:
+      return null;
   }
 }
 

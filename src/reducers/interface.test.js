@@ -1,6 +1,6 @@
 import Immutable from "immutable";
 
-import Interface from "../data/Interface";
+import Interface, {CancelableInterface} from "../data/Interface";
 import {send} from "../enum/Action";
 import reduce from "./interface";
 import Command from "../data/Command";
@@ -151,4 +151,14 @@ describe("With some commands", () => {
       expect(a(i, "dummy -d").get("id")).toBe("DUMMY");
     });
   });
+});
+
+test("Cancelable interface", () => {
+  let c = CancelableInterface(INTERFACES.test.set("parentId",
+    "DUMMY"), [".."], "back");
+
+  let i = a(c, "..");
+
+  expect(i.get("feedback")).toBe("back");
+  expect(i.get("id")).toBe("DUMMY");
 });
