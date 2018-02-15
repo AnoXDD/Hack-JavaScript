@@ -16,7 +16,6 @@ class CommandContainer extends Component {
 function mapStateToProps(state) {
   return {
     value: state.input.get("value"),
-    output: state.interface.get("output"),
   };
 }
 

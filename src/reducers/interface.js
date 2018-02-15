@@ -24,8 +24,8 @@ function printList(list) {
 
 function printHelp(interf, name) {
   if (!name) {
-    return printList(interf.get("commands")) +
-      "\n\nUse `help command' to find out more about command";
+    return "Use `help command' to find out more about command\n\n" + printList(interf.get("commands"));
+
   }
 
   let command = interf.get("commands")
@@ -45,7 +45,7 @@ function printHelp(interf, name) {
  * @param val
  * @return {*}
  */
-function execOutput(output,val) {
+function execOutput(output, val) {
   return typeof output === "function" ? output(val) : output;
 }
 
@@ -73,7 +73,7 @@ function execCommand(interf, command, cmd) {
   // Invalid arg
   if (!arg) {
     return interf.set("output",
-      `${option}: argument not found for ${cmd[0]}.\n` +
+      `${option}: argument not found for ${cmd[0]}\n` +
       printHelp(interf, cmd[0]));
   }
 
@@ -117,8 +117,7 @@ function reduceInterface(interf, cmd) {
   return execCommand(interf, command, cmd);
 }
 
-export default function reduce(state = INTERFACES.test,
-                               action) {
+export default function reduce(state, action) {
   switch (action.type) {
     case USER_INPUT:
       return reduceInterface(state, action.value);

@@ -12,12 +12,15 @@ body, html {
 .command-container {
   white-space: nowrap;
   overflow: hidden; }
-  .command-container:before {
-    content: "> "; }
   .command-container:after {
     content: "_"; }
 
+.command-line:before {
+  content: "> "; }
+
 .output-container {
   white-space: pre; }
+  .output-container .output {
+    margin-bottom: 1em; }
 
 /*# sourceMappingURL=app.css.map */

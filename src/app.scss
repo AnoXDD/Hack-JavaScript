@@ -15,15 +15,22 @@ body, html {
   white-space: nowrap;
   overflow: hidden;
 
-  &:before {
-    content: "> ";
-  }
-
   &:after {
     content: "_";
   }
 }
 
+.command-line {
+  &:before {
+    content: "> ";
+  }
+
+}
+
 .output-container {
   white-space: pre;
+
+  .output {
+    margin-bottom: 1em;
+  }
 }

@@ -1,9 +1,9 @@
 import {combineReducers} from "redux";
 
 import input from "./input";
-import interf from "./interface";
+import output from "./output";
 
 export default combineReducers({
   input,
-  "interface": interf,
+  output,
 });

@@ -7,7 +7,12 @@ class OutputContainer extends Component {
   render() {
     return (
       <div className="output-container">
-        {this.props.output}
+        {this.props.handshakes.map(h =>
+        <div key={h.timestamp} className="handshake">
+          <div className="input command-line">{h.input}</div>
+          <div className="output">{h.output}</div>
+        </div>
+        )}
       </div>
     );
   }
@@ -15,7 +20,7 @@ class OutputContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    output: state.interface.get("output"),
+    handshakes: state.output.get("handshakes"),
   };
 }
 
