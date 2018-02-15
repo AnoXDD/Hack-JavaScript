@@ -5,6 +5,7 @@ import {send} from "../enum/Action";
 import reduce from "./interface";
 import Command from "../data/Command";
 import Arg from "../data/Arg";
+import INTERFACES from "../enum/Interfaces";
 
 function a(i, cmd) {
   return reduce(i, send(cmd));
@@ -28,93 +29,7 @@ describe("With some commands", () => {
   let i = null;
 
   beforeEach(() => {
-    i = new Interface({
-      id      : "test",
-      commands: Immutable.List([
-        new Command({
-          match      : Immutable.Set("a alias aliases".split(" ")),
-          help       : "Just two commands to be matched",
-          output     : "alias",
-          interfaceId: null,
-          args       : Immutable.List([]),
-        }),
-        new Command({
-          match      : Immutable.Set("date".split(" ")),
-          help       : "Show current date",
-          output     : () => (new Date()).getFullYear(),
-          interfaceId: null,
-          args       : Immutable.List([]),
-        }),
-        new Command({
-          match      : Immutable.Set("echo".split(" ")),
-          help       : "Echoes something to console",
-          output     : "",
-          interfaceId: null,
-          args       : Immutable.List([
-            new Arg({
-              match      : Immutable.Set("-s".split(" ")),
-              help       : "Print it",
-              output     : val => val,
-              interfaceId: null,
-            })
-          ]),
-        }),
-        new Command({
-          match      : Immutable.Set("calc".split(" ")),
-          help       : "Calculates",
-          output     : null,
-          interfaceId: null,
-          args       : Immutable.List([
-            new Arg({
-              match      : Immutable.Set("-i".split(" ")),
-              help       : "Increment by 1",
-              output     : val => Number(val) + 1,
-              interfaceId: null,
-            }),
-            new Arg({
-              match      : Immutable.Set("-d".split(" ")),
-              help       : "Decrements by 1",
-              output     : val => Number(val) - 1,
-              interfaceId: null,
-            }),
-            new Arg({
-              match      : Immutable.Set("-z".split(" ")),
-              help       : "Prints zero",
-              output     : 0,
-              interfaceId: null,
-            })
-          ]),
-        }),
-        new Command({
-          match      : Immutable.Set("hidden".split(" ")),
-          help       : null,
-          output     : "hidden",
-          interfaceId: null,
-          args       : Immutable.List([]),
-        }),
-        new Command({
-          match      : Immutable.Set("dummy".split(" ")),
-          help       : "Go to",
-          output     : "Goes to dummy",
-          interfaceId: "DUMMY",
-          args       : Immutable.List([
-            new Arg({
-              match      : Immutable.Set("-d".split(" ")),
-              help       : "",
-              output     : "",
-              interfaceId: "DUMMY",
-            }),
-            new Arg({
-              match      : Immutable.Set("-n".split(" ")),
-              help       : "",
-              output     : "",
-              interfaceId: null,
-            })
-          ]),
-        })
-      ]),
-      parentId: "",
-    });
+    i = INTERFACES.test;
   });
 
   describe("Help", () => {

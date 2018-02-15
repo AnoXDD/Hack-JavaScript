@@ -41,6 +41,8 @@ class ControlContainer extends Component {
     } else {
       console.log("keydown", key);
     }
+
+    return false;
   }
 
   render() {

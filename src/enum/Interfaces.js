@@ -103,8 +103,13 @@ const INTERFACES = {
     id      : "INTRO_WELCOME",
     commands: Immutable.List([new Command({
       match      : Immutable.Set("next".split(" ")),
-      output     : STRING.INTRO_WELCOME,
+      help       : "Go to next paragraph",
+      output     : STRING.INTRO_PARAM,
       interfaceId: "INTRO_PARAM",
+    }), new Command({
+      match      : Immutable.Set("test".split(" ")),
+      output     : "TEST",
+      interfaceId: "test",
     })]),
     parentId: "",
   }),
@@ -115,7 +120,8 @@ const INTERFACES = {
       output: null,
       args  : Immutable.List([new Arg({
         match      : Immutable.Set("-p".split(" ")),
-        output     : STRING.INTRO_PARAM,
+        help       : "Go to next paragraph",
+        output     : STRING.INTRO_PARAM_GUESS,
         interfaceId: "INTRO_PARAM_GUESS",
       })]),
     })]),
@@ -125,7 +131,8 @@ const INTERFACES = {
     id      : "INTRO_PARAM_GUESS",
     commands: Immutable.List([new Command({
       match      : Immutable.Set("next".split(" ")),
-      output     : STRING.INTRO_PARAM_GUESS,
+      help       : "Go to next paragraph",
+      output     : STRING.INTRO_END,
       interfaceId: "INTRO_END",
     })]),
     parentId: "",

@@ -1,13 +1,18 @@
-body, html {
+body, html, #root {
   margin: 0;
   font-family: monospace;
   background: black;
   color: #33ff66;
-  overflow: hidden; }
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh; }
 
 .App {
   padding: 20px;
-  box-sizing: content-box; }
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
 
 .command-container {
   white-space: nowrap;
@@ -19,8 +24,13 @@ body, html {
   content: "> "; }
 
 .output-container {
-  white-space: pre; }
+  white-space: pre;
+  position: relative; }
   .output-container .output {
-    margin-bottom: 1em; }
+    margin: 0 0 1em 0; }
+    .output-container .output p {
+      white-space: pre-wrap;
+      margin: 0;
+      min-height: 1em; }
 
 /*# sourceMappingURL=app.css.map */
