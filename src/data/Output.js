@@ -6,6 +6,6 @@ const Output = new Immutable.Record({
   // A list of all previous communications between the user and the
   // game
   handshakes: Immutable.List(),
-});
+}, "Output");
 
 export default Output;

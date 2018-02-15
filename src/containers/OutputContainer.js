@@ -24,7 +24,7 @@ class OutputContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    handshakes: state.output.get("handshakes"),
+    handshakes: state.output.get("handshakes").toJS(),
   };
 }
 

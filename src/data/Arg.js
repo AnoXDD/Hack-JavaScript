@@ -10,6 +10,6 @@ const Arg = new Immutable.Record({
   // Go to this `Interface` when this command is executed, null to
   // stay where it is
   interfaceId: null,
-});
+}, "Arg");
 
 export default Arg;

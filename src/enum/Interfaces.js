@@ -117,6 +117,7 @@ const INTERFACES = {
     id      : "INTRO_PARAM",
     commands: Immutable.List([new Command({
       match : Immutable.Set("next".split(" ")),
+      help  : "Go to next paragraph, but requires an argument",
       output: null,
       args  : Immutable.List([new Arg({
         match      : Immutable.Set("-p".split(" ")),
@@ -135,6 +136,11 @@ const INTERFACES = {
       output     : STRING.INTRO_END,
       interfaceId: "INTRO_END",
     })]),
+    parentId: "",
+  }),
+  "INTRO_END"        : new Interface({
+    id      : "INTRO_END",
+    commands: Immutable.List([]),
     parentId: "",
   }),
 };

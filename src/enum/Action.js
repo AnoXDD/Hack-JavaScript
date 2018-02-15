@@ -18,7 +18,7 @@ export function backspace(deleteWord = false) {
   };
 }
 
-export function send(value = store.getState().input.value) {
+export function send(value = store.getState().input.get("value")) {
   return {
     type : USER_INPUT,
     value,

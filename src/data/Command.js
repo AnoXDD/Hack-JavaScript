@@ -13,6 +13,6 @@ const Command = new Immutable.Record({
   interfaceId: null,
   // (optional) A list of `Arg`
   args       : Immutable.List(),
-});
+}, "Command");
 
 export default Command;
