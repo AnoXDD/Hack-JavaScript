@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 class OutputContainer extends Component {
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     this.props.onUpdate();
   }
 

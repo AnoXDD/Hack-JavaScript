@@ -13,7 +13,7 @@ function a(i, cmd) {
 
 function ao(i, cmd) {
   let b = a(i, cmd);
-  return b.get("output");
+  return b.get("feedback");
 }
 
 test("No input", () => {
@@ -60,7 +60,9 @@ describe("With some commands", () => {
     });
 
     test("Help of a specific command", () => {
-      expect(ao(i, "help date").indexOf("Show current date")).not.toBe(-1);
+      expect(ao(i, "help date").indexOf("Show current date"))
+        .not
+        .toBe(-1);
     });
 
     test("Help of a specific command with args", () => {

@@ -1,4 +1,4 @@
-import {COMMAND_HELP} from "../enum/Commands";
+import {COMMAND_CLS, COMMAND_HELP} from "../enum/Commands";
 import INTERFACES from "../enum/Interfaces";
 import {USER_INPUT} from "../enum/ActionType";
 
@@ -24,7 +24,8 @@ function printList(list) {
 
 function printHelp(interf, name) {
   if (!name) {
-    return "Use `help command' to find out more about command\n\n" + printList(interf.get("commands"));
+    return "Use `help command' to find out more about command\n\n" + printList(
+      interf.get("commands"));
 
   }
 
@@ -53,7 +54,7 @@ function execCommand(interf, command, cmd) {
   if (cmd.length === 1) {
     if (command.get("output") === null) {
       // Extra arg is required
-      return interf.set("output",
+      return interf.set("feedback",
         `More arguments required.\n` + printHelp(interf, cmd[0]));
     }
 
@@ -72,7 +73,7 @@ function execCommand(interf, command, cmd) {
 
   // Invalid arg
   if (!arg) {
-    return interf.set("output",
+    return interf.set("feedback",
       `${option}: argument not found for ${cmd[0]}\n` +
       printHelp(interf, cmd[0]));
   }
@@ -81,6 +82,17 @@ function execCommand(interf, command, cmd) {
 
   return (INTERFACES[arg.get("interfaceId")] || interf)
     .set("output", execOutput(output, val));
+}
+
+function execUniversalCommandIfNecessary(interf, cmd) {
+  // Print help
+  if (cmd[0] === COMMAND_HELP) {
+    return interf.set("feedback", printHelp(interf, cmd[1]));
+  }
+
+  if (cmd[0] === COMMAND_CLS) {
+    return interf.set("feedback", COMMAND_CLS);
+  }
 }
 
 /**
@@ -96,12 +108,12 @@ function reduceInterface(interf, cmd) {
   cmd = trimCommand(cmd);
 
   if (!cmd.length) {
-    return interf.set("output", "");
+    return interf.set("feedback", "");
   }
 
-  // Print help
-  if (cmd[0] === COMMAND_HELP) {
-    return interf.set("output", printHelp(interf, cmd[1]));
+  let e = execUniversalCommandIfNecessary(interf, cmd);
+  if (e) {
+    return e;
   }
 
   // Match commands
@@ -111,7 +123,7 @@ function reduceInterface(interf, cmd) {
 
   if (!command) {
     // Cannot recognize this command
-    return interf.set("output", `${cmd[0]}: command not found`);
+    return interf.set("feedback", `${cmd[0]}: command not found`);
   }
 
   return execCommand(interf, command, cmd);

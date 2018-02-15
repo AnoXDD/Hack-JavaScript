@@ -12,7 +12,9 @@ const Interface = new Immutable.Record({
   parentId: null,
   // String only. What will be printed to the console. This field is
   // supposed to be set by the reducer, not by the user
-  output  : "",
+  feedback: "",
+  // The header of the command line
+  header  : "",
 }, "Interface");
 
 export default Interface;

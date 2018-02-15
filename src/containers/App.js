@@ -13,8 +13,7 @@ class App extends Component {
   }
 
   handleOutputContainerUpdate() {
-    let {scrollbars} = this.refs;
-    scrollbars.scrollToBottom();
+    this.scrollbars.scrollToBottom();
   }
 
   render() {
@@ -24,7 +23,10 @@ class App extends Component {
           <Scrollbars
             autoHide
             autoHeightMax="100%"
-            ref="scrollbars"
+            ref={ref=>{
+              this.scrollbars = ref;
+              this.handleOutputContainerUpdate();
+            }}
             style={{maxHeight: "100%"}}
           >
             <ControlContainer/>
