@@ -3,22 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "eslint": "^3.19.0",
-    "eslint-plugin-flowtype": "^2.44.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.1",
-    "immutable": "latest",
-    "prop-types": "latest",
+    "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
+    "react-scripts": "1.1.1",
     "redux": "^3.7.2"
-  },
-  "devDependencies": {
-    "jest": "^21.2.1",
-    "react-scripts": "^1.1.1",
-    "redux-devtools": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

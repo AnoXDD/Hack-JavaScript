@@ -3,11 +3,11 @@ import React, {Component} from "react";
 import CommandLine from "../components/CommandLine";
 import {connect} from "react-redux";
 
-class CommandContainer extends Component {
+class OutputContainer extends Component {
   render() {
     return (
-      <div className="command-container">
-        <CommandLine value={this.props.value}/>
+      <div className="output-container">
+        {this.props.output}
       </div>
     );
   }
@@ -15,11 +15,10 @@ class CommandContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    value: state.input.get("value"),
     output: state.interface.get("output"),
   };
 }
 
-const connected = connect(mapStateToProps)(CommandContainer);
+const connected = connect(mapStateToProps)(OutputContainer);
 
 export default connected;

@@ -2,6 +2,7 @@ import {
   USER_BACKSPACE, USER_INPUT, USER_NEXT_COMMAND, USER_PREV_COMMAND,
   USER_TYPE
 } from "./ActionType";
+import store from "../store";
 
 export function type(letter) {
   return {
@@ -17,9 +18,10 @@ export function backspace(deleteWord = false) {
   };
 }
 
-export function send() {
+export function send(value = store.getState().input.value) {
   return {
-    type: USER_INPUT,
+    type : USER_INPUT,
+    value,
   };
 }
 

@@ -17,4 +17,7 @@ body, html {
   .command-container:after {
     content: "_"; }
 
+.output-container {
+  white-space: pre; }
+
 /*# sourceMappingURL=app.css.map */

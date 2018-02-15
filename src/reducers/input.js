@@ -51,6 +51,7 @@ export default function reduce(state = initialState, action) {
       return syncLastCommand(state.set("value", value));
     }
     case USER_INPUT: {
+      // todo handle empty string
       let history = state.get("history");
       let value = state.get("value");
 
