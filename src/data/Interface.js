@@ -5,6 +5,7 @@
 import Immutable from "immutable";
 import Property from "./Property";
 import Command from "./Command";
+import {MATCH_ANY} from "../enum/Commands";
 
 const Interface = new Immutable.Record({
   id      : null,
@@ -21,10 +22,9 @@ const Interface = new Immutable.Record({
 /**
  * Creates a cancelable interface, which can go to whoever called it
  * (specified by parentId)
- * @param {Interface|Immutable.Map} interf
+ * @param {Interface|Immutable.Record} interf
  * @param {Array} match - command to be matched
  * @param {*} output - function or string to be output
- * @constructor
  */
 export function CancelableInterface(interf, match, output) {
   let command = new Command({
@@ -40,11 +40,42 @@ export function CancelableInterface(interf, match, output) {
   return interf.set("commands", newCommands);
 }
 
-export function PromptInterface(id) {
-  return new Interface({
-    id: id,
+/**
+ * Creates a prompt interface, which acts like a prompt
+ *   command doesn't match
+ * @param {{source: string, target: string, prompt: string}} ids -
+ *   the ids of interfaces
+ * @param {Array} match - command to be matched
+ * @param {{success: *, fail: *}} output - what to output
+ *   if command is a match or not
+ * @param {String} header - what to show as a prompt
+ * @param {boolean} password - if the prompt should be considered
+ *   password
+ */
+export function PromptInterface(ids,
+                                match,
+                                output,
+                                header = ">",
+                                password = false) {
+  let {source, target, prompt} = ids;
+  let {success, fail} = output;
 
-  })
+  return CancelableInterface(new Interface({
+    id      : prompt,
+    commands: Immutable.List([
+      new Command({
+        match      : Immutable.OrderedSet(match),
+        output     : success,
+        interfaceId: target,
+      }),
+    ]),
+    parentId: source,
+    property: new Property({
+      header,
+      password,
+      prompt: true,
+    })
+  }), [MATCH_ANY], fail);
 }
 
 export default Interface;

@@ -1,6 +1,9 @@
 import Immutable from "immutable";
 
-import Interface, {CancelableInterface} from "../data/Interface";
+import Interface, {
+  CancelableInterface,
+  PromptInterface
+} from "../data/Interface";
 import {send} from "../enum/Action";
 import reduce from "./interface";
 import Command from "../data/Command";
@@ -161,4 +164,38 @@ test("Cancelable interface", () => {
 
   expect(i.get("feedback")).toBe("back");
   expect(i.get("id")).toBe("DUMMY");
+});
+
+describe("Prompt interface", () => {
+  let p = null;
+
+  beforeEach(() => {
+    p = PromptInterface({
+      source: "test",
+      prompt: "prompt",
+      target: "DUMMY"
+    }, ["y"], {success: "success", fail: "fail"}, "y/n", true);
+  });
+
+  test("Property set correctly", () => {
+    let prop = p.get("property");
+
+    expect(prop.get("header")).toBe("y/n");
+    expect(prop.get("password")).toBeTruthy();
+  });
+
+  test("Success", () => {
+    let i = a(p, "y");
+
+    expect(i.get("id")).toBe("DUMMY");
+    expect(i.get("feedback")).toBe("success");
+  });
+
+  test("Fail", () => {
+    // Match any
+    let i = a(p, "fsdaasdf");
+
+    expect(i.get("id")).toBe("test");
+    expect(i.get("feedback")).toBe("fail");
+  });
 });

@@ -1,6 +1,6 @@
 import {
   COMMAND_CLS, COMMAND_HELP,
-  COMMAND_RESET
+  COMMAND_RESET, MATCH_ANY
 } from "../enum/Commands";
 import INTERFACES from "../enum/Interfaces";
 import {USER_INPUT} from "../enum/ActionType";
@@ -9,6 +9,22 @@ const HELP_NAME_LENGTH = 15;
 
 function trimCommand(cmd) {
   return cmd.split(" ").filter(c => c.length);
+}
+
+/**
+ * Finds a command from a list
+ * @param {Immutable.OrderedSet} list
+ * @param {string} key
+ * @param {boolean} findHidden - if it should find command that is
+ *   meant to be hidden
+ */
+function findCommand(list, key, findHidden = true) {
+  return list.find(c =>
+    (findHidden || c.get("help")) &&
+    c.get("match").includes(key))
+    || list.find(c =>
+      (findHidden || c.get("help")) &&
+      c.get("match").includes(MATCH_ANY));
 }
 
 /**
@@ -27,13 +43,11 @@ function printList(list) {
 
 function printHelp(interf, name) {
   if (!name) {
-    return "Use `help command' to find out more about command\n\n" + printList(
-      interf.get("commands"));
-
+    return "Use `help command' to find out more about command\n\n" +
+      printList(interf.get("commands"));
   }
 
-  let command = interf.get("commands")
-    .find(c => c.get("help") && c.get("match").includes(name));
+  let command = findCommand(interf.get("commands"), name, false);
 
   if (!command) {
     return `No help available for \`${name}'`;
@@ -71,8 +85,7 @@ function execCommand(interf, command, cmd) {
   let option = cmd[1];
   let val = cmd[2];
 
-  let arg = command.get("args")
-    .find(a => a.get("match").includes(option));
+  let arg = findCommand(command.get("args"), option);
 
   // Invalid arg
   if (!arg) {
@@ -124,8 +137,7 @@ function reduceInterface(interf, cmd) {
 
   // Match commands
   // todo make match first letter work
-  let command = interf.get("commands")
-    .find(c => c.get("match").includes(cmd[0]));
+  let command = findCommand(interf.get("commands"), cmd[0]);
 
   if (!command) {
     // Cannot recognize this command
