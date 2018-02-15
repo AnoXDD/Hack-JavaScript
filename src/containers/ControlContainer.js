@@ -26,7 +26,6 @@ class ControlContainer extends Component {
   handleKeyDown(e) {
     let {key} = e;
 
-    // todo control-delete
     // todo control-c delete
     if (key.length === 1) {
       store.dispatch(type(key));

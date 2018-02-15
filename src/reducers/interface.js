@@ -61,7 +61,7 @@ function execCommand(interf, command, cmd) {
     let output = command.get("output");
 
     return (INTERFACES[command.get("interfaceId")] || interf)
-      .set("output", execOutput(output, cmd[0]));
+      .set("feedback", execOutput(output, cmd[0]));
   }
 
   // With args, for now only accept one arg and its value
@@ -81,7 +81,7 @@ function execCommand(interf, command, cmd) {
   let output = arg.get("output");
 
   return (INTERFACES[arg.get("interfaceId")] || interf)
-    .set("output", execOutput(output, val));
+    .set("feedback", execOutput(output, val));
 }
 
 function execUniversalCommandIfNecessary(interf, cmd) {

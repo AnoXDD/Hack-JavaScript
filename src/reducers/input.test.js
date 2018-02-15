@@ -122,5 +122,13 @@ describe("History", () => {
     input = reduce(input, send());
 
     expect(input.get("history").toJS()).toEqual(["1", "2", "3", ""]);
+  });
+
+  test("Empty input", () => {
+    input = reduce(input, send("      "));
+    input = reduce(input, send(""));
+
+    expect(input.get("history").toJS()).toEqual(["1", "2", "3", ""]);
+    expect(input.get("historyIndex")).toBe(3);
   })
 });

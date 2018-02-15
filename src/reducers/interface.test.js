@@ -21,8 +21,8 @@ test("No input", () => {
     output: "dsaffasd",
   });
 
-  expect(a(i, "         ").get("output")).toBe("");
-  expect(a(i, "").get("output")).toBe("");
+  expect(a(i, "         ").get("feedback")).toBe("");
+  expect(a(i, "").get("feedback")).toBe("");
 });
 
 describe("With some commands", () => {

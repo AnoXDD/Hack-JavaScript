@@ -55,16 +55,18 @@ export default function reduce(state = initialState, action) {
       let history = state.get("history");
       let value = state.get("value");
 
-      history = history.set(history.size - 1, value);
+      if (value.trim() !== "") {
+        history = history.set(history.size - 1, value);
 
-      // Do not store if the new command is the same as the last
-      // command in the history
-      if (history.size > 1 && history.get(history.size - 2) === state.get(
-          "value")) {
-        history = history.pop();
+        // Do not store if the new command is the same as the last
+        // command in the history
+        if (history.size > 1 && history.get(history.size - 2) === state.get(
+            "value")) {
+          history = history.pop();
+        }
+
+        history = history.push("");
       }
-
-      history = history.push("");
 
       return state.set("value", "")
         .set("history", history)
