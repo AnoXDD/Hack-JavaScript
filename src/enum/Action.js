@@ -18,10 +18,15 @@ export function backspace(deleteWord = false) {
   };
 }
 
-export function send(value = store.getState().input.get("value")) {
+export function send(value = store.getState().input.get("value"),
+                     from = store.getState()
+                       .output
+                       .get("interface")
+                       .get("id")) {
   return {
-    type : USER_INPUT,
+    type: USER_INPUT,
     value,
+    from,
   };
 }
 

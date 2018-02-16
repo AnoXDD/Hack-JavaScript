@@ -76,8 +76,10 @@ function execCommand(interf, command, cmd) {
     }
 
     let output = command.get("output");
+    let id = command.get("interfaceId");
+    id = typeof id === "function" ? id(cmd[0]) : id;
 
-    return (INTERFACES[command.get("interfaceId")] || interf)
+    return (INTERFACES[id] || interf)
       .set("feedback", execOutput(output, cmd[0]));
   }
 
@@ -95,13 +97,18 @@ function execCommand(interf, command, cmd) {
   }
 
   let output = arg.get("output");
+  let id = arg.get("interfaceId");
+  id = typeof id === "function" ? id(val) : id;
 
-  return (INTERFACES[arg.get("interfaceId")] || interf)
+  return (INTERFACES[id] || interf)
     .set("feedback", execOutput(output, val));
 }
 
 function execUniversalCommandIfNecessary(interf, cmd) {
-  // Print help
+  if (interf.get("property").get("prompt")) {
+    return null;
+  }
+
   switch (cmd[0]) {
     case COMMAND_HELP:
       return interf.set("feedback", printHelp(interf, cmd[1]));

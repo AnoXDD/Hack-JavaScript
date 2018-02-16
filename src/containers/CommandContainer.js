@@ -7,7 +7,11 @@ class CommandContainer extends Component {
   render() {
     return (
       <div className="command-container">
-        <CommandLine value={this.props.value}/>
+        <CommandLine
+          value={this.props.value}
+          header={this.props.header}
+          password={this.props.password}
+        />
       </div>
     );
   }
@@ -15,7 +19,13 @@ class CommandContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    value: state.input.get("value"),
+    value   : state.input.get("value"),
+    header  : state.output.get("interface")
+      .get("property")
+      .get("header"),
+    password: state.output.get("interface")
+      .get("property")
+      .get("password"),
   };
 }
 

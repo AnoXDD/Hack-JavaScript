@@ -1,13 +1,9 @@
-import Immutable from "immutable";
-
 import Interface, {
   CancelableInterface,
   PromptInterface
 } from "../data/Interface";
 import {send} from "../enum/Action";
 import reduce from "./interface";
-import Command from "../data/Command";
-import Arg from "../data/Arg";
 import INTERFACES from "../enum/Interfaces";
 
 function a(i, cmd) {
@@ -194,6 +190,20 @@ describe("Prompt interface", () => {
   test("Fail", () => {
     // Match any
     let i = a(p, "fsdaasdf");
+
+    expect(i.get("id")).toBe("test");
+    expect(i.get("feedback")).toBe("fail");
+  });
+
+  test("Fail on help", () => {
+    let i = a(p, "help");
+
+    expect(i.get("id")).toBe("test");
+    expect(i.get("feedback")).toBe("fail");
+  });
+
+  test("Fail on cls", () => {
+    let i = a(p, "cls");
 
     expect(i.get("id")).toBe("test");
     expect(i.get("feedback")).toBe("fail");

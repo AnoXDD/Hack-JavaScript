@@ -39,7 +39,8 @@ export default function reduce(state = initState, action) {
 
       let handshake = new Handshake({
         input    : action.value,
-        output   : interf.get("feedback"),
+        output   : interf.get("property").get("header") +
+        interf.get("feedback"),
         timestamp: Date.now(),
       });
 

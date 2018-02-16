@@ -1,11 +1,21 @@
 import Immutable from "immutable";
 
 import STRING from "./String";
-import Interface from "../data/Interface";
+import Interface, {PromptInterface} from "../data/Interface";
 import Command from "../data/Command";
 import Arg from "../data/Arg";
+import {
+  getHomeId, getInternalId, getMailContent, getSshId, getSshOutput,
+  printLog
+} from "../util";
+import {
+  COMPANY_INTERNAL, ME, SSH_OUTPUT,
+  SSH_PROP
+} from "./Names";
+import PASSWORDS from "./Passwords";
 
 const INTERFACES = {
+  // region test
   "DUMMY": new Interface({
     id      : "DUMMY",
     commands: Immutable.List([]),
@@ -98,7 +108,9 @@ const INTERFACES = {
     ]),
     parentId: "",
   }),
+  // endregion
 
+  // region Intro
   "INTRO_WELCOME"    : new Interface({
     id      : "INTRO_WELCOME",
     commands: Immutable.List([new Command({
@@ -140,9 +152,72 @@ const INTERFACES = {
   }),
   "INTRO_END"        : new Interface({
     id      : "INTRO_END",
-    commands: Immutable.List([]),
+    commands: Immutable.List([new Command({
+      match      : Immutable.OrderedSet("start".split(" ")),
+      help       : "Start playing the game",
+      output     : "Initializing ...\nWelcome, Mino",
+      interfaceId: "HOME_INITIAL",
+    })]),
     parentId: "",
   }),
+  // endregion
+
+  // region Home
+  "HOME_INITIAL": new Interface({
+    id      : "HOME_INITIAL",
+    commands: Immutable.List([
+      new Command({
+        match      : Immutable.OrderedSet("diary".split(" ")),
+        help       : "Shows the diary that I kept",
+        output     : printLog,
+        interfaceId: null,
+      }),
+      new Command({
+        match : Immutable.OrderedSet(COMPANY_INTERNAL.toLowerCase()
+          .split(" ")),
+        help  : `Logs into ${COMPANY_INTERNAL}`,
+        output: null,
+        args  : Immutable.List([
+          new Arg({
+            match      : Immutable.Set("-u".split(" ")),
+            help       : "As username ...",
+            output     : getSshOutput,
+            interfaceId: getSshId,
+          })
+        ]),
+      })
+    ]),
+    parentId: "",
+  }),
+  // endregion
+
+  // region SSH
+  "SSH_PLAYER": PromptInterface({
+    source: getHomeId,
+    prompt: "SSH_PLAYER",
+    target: getInternalId(ME),
+  }, [PASSWORDS.PLAYER], SSH_OUTPUT, ...SSH_PROP),
+  // endregion
+
+  // region Internal
+
+  // endregion
+
+  // region Mailboxes
+  "MAIL_HOME": new Interface({
+    id      : "MAIL_HOME",
+    commands: Immutable.List([
+      new Command({
+        match      : Immutable.OrderedSet("ls".split(" ")),
+        help       : "Lists all the emails",
+        output     : () => getMailContent("MAIL_HOME"),
+        interfaceId: null,
+        args       : Immutable.List([]),
+      })
+    ]),
+    parentId: "",
+  }),
+  // endregion
 };
 
 export default INTERFACES;

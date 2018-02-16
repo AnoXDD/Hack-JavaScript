@@ -16,7 +16,7 @@ const Interface = new Immutable.Record({
   // String only. What will be printed to the console. This field is
   // supposed to be set by the reducer, not by the user
   feedback: "",
-  property: new Property()
+  property: new Property(),
 }, "Interface");
 
 /**
@@ -43,7 +43,7 @@ export function CancelableInterface(interf, match, output) {
 /**
  * Creates a prompt interface, which acts like a prompt
  *   command doesn't match
- * @param {{source: string, target: string, prompt: string}} ids -
+ * @param {{source: *, target: *, prompt: *}} ids -
  *   the ids of interfaces
  * @param {Array} match - command to be matched
  * @param {{success: *, fail: *}} output - what to output
@@ -58,7 +58,13 @@ export function PromptInterface(ids,
                                 header = ">",
                                 password = false) {
   let {source, target, prompt} = ids;
-  let {success, fail} = output;
+  let {success = "", fail = ""} = output;
+
+  source = typeof source === "function" ? source() : source;
+  target = typeof target === "function" ? target() : target;
+  prompt = typeof prompt === "function" ? prompt() : prompt;
+  success = typeof success === "function" ? success() : success;
+  fail = typeof fail === "function" ? fail() : fail;
 
   return CancelableInterface(new Interface({
     id      : prompt,
