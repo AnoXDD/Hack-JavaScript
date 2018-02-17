@@ -14,6 +14,12 @@ body, html, #root {
   display: flex;
   flex-direction: column;
   height: 100%;
+  font-size: 13px;
+}
+
+.width-box {
+  position: fixed;
+
 }
 
 .command-container {

@@ -12,13 +12,27 @@ class App extends Component {
       this);
   }
 
+  componentDidMount() {
+    // Calculate the width for better format
+
+    if (!this.refs || !this.refs.widthbox || !this.refs.app) {
+      window.charLimit = 8;
+    }
+
+    let appWidth = this.refs.app.clientWidth;
+    let charWidth = this.refs.widthbox.clientWidth;
+    window.charLimit = Math.floor(appWidth / charWidth) || 8;
+    console.log(window.charLimit);
+  }
+
   handleOutputContainerUpdate() {
     this.scrollbars.scrollToBottom();
   }
 
   render() {
     return (
-      <div className="App">
+      <div className="App" ref="app">
+        <div className="hidden width-box" ref="widthbox">.</div>
         <div style={{height: "100%"}}>
           <Scrollbars
             autoHide

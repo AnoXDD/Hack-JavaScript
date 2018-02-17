@@ -5,12 +5,16 @@ import Interface, {PromptInterface} from "../data/Interface";
 import Command from "../data/Command";
 import Arg from "../data/Arg";
 import {
-  getHomeId, getInternalId, getMailContent, getSshId, getSshOutput,
+  getHomeId,
+  getInternalInterfaceId,
+  getMailSnapshot,
+  getSshLoginInterfaceId,
+  getSshOutput,
   printLog
 } from "../util";
 import {
   COMPANY_INTERNAL, ME, SSH_OUTPUT,
-  SSH_PROP
+  SSH_PROP, USER_LIST
 } from "./Names";
 import PASSWORDS from "./Passwords";
 
@@ -182,7 +186,7 @@ const INTERFACES = {
             match      : Immutable.Set("-u".split(" ")),
             help       : "As username ...",
             output     : getSshOutput,
-            interfaceId: getSshId,
+            interfaceId: getSshLoginInterfaceId,
           })
         ]),
       })
@@ -192,11 +196,16 @@ const INTERFACES = {
   // endregion
 
   // region SSH
-  "SSH_PLAYER": PromptInterface({
-    source: getHomeId,
-    prompt: "SSH_PLAYER",
-    target: getInternalId(ME),
-  }, [PASSWORDS.PLAYER], SSH_OUTPUT, ...SSH_PROP),
+  ...USER_LIST.reduce((intf, id) => {
+    intf[id] = PromptInterface({
+      source: getHomeId,
+      prompt: getSshLoginInterfaceId(id),
+      target: getInternalInterfaceId(id),
+    }, [PASSWORDS.PLAYER], SSH_OUTPUT, ...SSH_PROP);
+
+    return intf;
+  }, {}),
+
   // endregion
 
   // region Internal
@@ -204,19 +213,7 @@ const INTERFACES = {
   // endregion
 
   // region Mailboxes
-  "MAIL_HOME": new Interface({
-    id      : "MAIL_HOME",
-    commands: Immutable.List([
-      new Command({
-        match      : Immutable.OrderedSet("ls".split(" ")),
-        help       : "Lists all the emails",
-        output     : () => getMailContent("MAIL_HOME"),
-        interfaceId: null,
-        args       : Immutable.List([]),
-      })
-    ]),
-    parentId: "",
-  }),
+
   // endregion
 };
 

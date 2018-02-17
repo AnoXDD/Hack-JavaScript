@@ -12,7 +12,11 @@ body, html, #root {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 100%; }
+  height: 100%;
+  font-size: 13px; }
+
+.width-box {
+  position: fixed; }
 
 .command-container {
   white-space: nowrap;

@@ -14,6 +14,9 @@ export const DIRECTOR_ALT = "Clyde";
 export const DIRECTOR_ALT_KID = "Selina";
 export const DIRECTOR_ALT_TUTOR = "Joy";
 export const RANDOM_EMPLOYEE_ALT = "Van";
+
+export const USER_LIST = [ME, MANAGER, ANONYMOUS, NO_REPLY, ME_ALT, SPY, MANAGER_ALT, SUPER_MANAGER_ALT, SECURITY_DEPT, MANAGER_NEW_RESOURCE, HR_DEPT, DIRECTOR_ALT, DIRECTOR_ALT_KID, DIRECTOR_ALT_TUTOR, RANDOM_EMPLOYEE_ALT];
+
 export const SPAM_SENDER = ["Hannah", "Service Desk", "Diploma Center", "Mrs. Sandra Sify", "Barr. Louis Connor", "Barbara Cole"];
 
 export const COMPANY = "TAK";
