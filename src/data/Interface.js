@@ -60,12 +60,6 @@ export function PromptInterface(ids,
   let {source, target, prompt} = ids;
   let {success = "", fail = ""} = output;
 
-  source = typeof source === "function" ? source() : source;
-  target = typeof target === "function" ? target() : target;
-  prompt = typeof prompt === "function" ? prompt() : prompt;
-  success = typeof success === "function" ? success() : success;
-  fail = typeof fail === "function" ? fail() : fail;
-
   return CancelableInterface(new Interface({
     id      : prompt,
     commands: Immutable.List([

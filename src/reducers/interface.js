@@ -7,6 +7,19 @@ import {USER_INPUT} from "../enum/ActionType";
 
 const HELP_NAME_LENGTH = 15;
 
+/**
+ * Wrapper around the original get method for immutable. This method
+ * will also try to convert the value if it's a function
+ * @param {Immutable.Map} immutable
+ * @param key
+ * @param param - the rest of parameters to be passed to the function
+ */
+function get(immutable, key, ...param) {
+  let val = immutable.get("key");
+
+  return typeof val === "function" ? val(...param) : val;
+}
+
 function trimCommand(cmd) {
   return cmd.split(" ").filter(c => c.length);
 }
@@ -75,8 +88,8 @@ function execCommand(interf, command, cmd) {
         `More arguments required.\n` + printHelp(interf, cmd[0]));
     }
 
-    let output = command.get("output");
-    let id = command.get("interfaceId");
+    let output = get(command,"output");
+    let id = get(command,"interfaceId");
     id = typeof id === "function" ? id(cmd[0]) : id;
 
     return (INTERFACES[id] || interf)
@@ -96,9 +109,8 @@ function execCommand(interf, command, cmd) {
       printHelp(interf, cmd[0]));
   }
 
-  let output = arg.get("output");
-  let id = arg.get("interfaceId");
-  id = typeof id === "function" ? id(val) : id;
+  let output = get(arg,"output",val);
+  let id = get(arg,"interfaceId",val);
 
   return (INTERFACES[id] || interf)
     .set("feedback", execOutput(output, val));

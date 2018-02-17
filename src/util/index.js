@@ -1,6 +1,5 @@
 import store from "../store";
-import {ME} from "../enum/Names";
-import STRING from "../enum/String";
+import {ME, SSH_OUTPUT} from "../enum/Names";
 
 export function printLog() {
   store.getState();
@@ -21,7 +20,16 @@ export function getSshOutput(name) {
 }
 
 export function getSshLoginInterfaceId(userId) {
+  // todo if user changed password, redirect userId here
   return `SSH_${userId}`;
+}
+
+export function getSshLoginOutput(userId) {
+  // todo if user requires special plugin, check it here
+  return {
+    success: `Welcome, ${userId}`,
+    ...SSH_OUTPUT,
+  };
 }
 
 export function getInternalInterfaceId() {

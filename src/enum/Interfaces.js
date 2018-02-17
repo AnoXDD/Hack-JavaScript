@@ -8,7 +8,7 @@ import {
   getHomeId,
   getInternalInterfaceId,
   getMailSnapshot,
-  getSshLoginInterfaceId,
+  getSshLoginInterfaceId, getSshLoginOutput,
   getSshOutput,
   printLog
 } from "../util";
@@ -198,10 +198,10 @@ const INTERFACES = {
   // region SSH
   ...USER_LIST.reduce((intf, id) => {
     intf[id] = PromptInterface({
-      source: getHomeId,
-      prompt: getSshLoginInterfaceId(id),
-      target: getInternalInterfaceId(id),
-    }, [PASSWORDS.PLAYER], SSH_OUTPUT, ...SSH_PROP);
+      source: () => getHomeId,
+      prompt: () => getSshLoginInterfaceId(id),
+      target: () => getInternalInterfaceId(id),
+    }, [PASSWORDS[id]], () => getSshLoginOutput(id), ...SSH_PROP);
 
     return intf;
   }, {}),
