@@ -1,7 +1,3 @@
-import Interface, {
-  CancelableInterface,
-  PromptInterface
-} from "../data/Interface";
 import {send} from "../enum/Action";
 import reduce from "./interface";
 import INTERFACES from "../enum/Interfaces";
@@ -34,6 +30,5 @@ test("Introduction of game", () => {
   expect(e("start").i).toBe("HOME_INITIAL");
 });
 
-test("First letter in public mailbox", () => {
-  expect(e("mail").i).toBe()
-})
+// test("First letter in public mailbox", () => {
+// })
