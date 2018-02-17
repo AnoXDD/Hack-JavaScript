@@ -1,4 +1,5 @@
 import {
+  SET_CHECKPOINT,
   USER_BACKSPACE, USER_INPUT, USER_NEXT_COMMAND, USER_PREV_COMMAND,
   USER_TYPE
 } from "./ActionType";
@@ -42,10 +43,9 @@ export function nextCommand() {
   };
 }
 
-export default {
-  type,
-  backspace,
-  send,
-  prevCommand,
-  nextCommand,
+export function setCheckpoint(checkpoint) {
+  return {
+    type: SET_CHECKPOINT,
+    checkpoint,
+  };
 }

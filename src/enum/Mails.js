@@ -335,3 +335,5 @@ For the past three years, we lost almost every agent we trained here at ${COMPAN
     }),
   ],
 };
+
+export default MAILS;
