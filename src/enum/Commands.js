@@ -9,12 +9,6 @@ import {
 import Command from "../data/Command";
 import Arg from "../data/Arg";
 
-export const COMMAND_HELP = "help";
-export const COMMAND_CLS = "cls";
-export const COMMAND_RESET = "reset";
-
-export const MATCH_ANY = "";
-
 const COMMANDS = {
   // Mailboxes
   ...USER_LIST.reduce((commands, user) => {

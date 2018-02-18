@@ -6,7 +6,7 @@ import reduceInterface from "./interface";
 import {USER_INPUT} from "../enum/ActionType";
 import Handshake from "../data/Handshake";
 import STRING from "../enum/String";
-import {COMMAND_CLS} from "../enum/Commands";
+import {COMMAND_CLS} from "../enum/String";
 
 const initState = new Output({
   interface : INTERFACES.INTRO_WELCOME,
@@ -33,14 +33,21 @@ function reduceSignal(state) {
 }
 
 export default function reduce(state = initState, action) {
+  // Initialize interface if necessary
+  if (state.get("interface").get("commands") === null) {
+    state = state.set("interface",
+      INTERFACES[state.get("interface").get("id")]);
+  }
+
   switch (action.type) {
     case USER_INPUT:
       let interf = reduceInterface(state.get("interface"), action);
 
       let handshake = new Handshake({
-        input    : interf.get("property").get("header") + action.value,
-        output   :         interf.get("feedback"),
-        timestamp: Date.now(),
+        inputHeader: interf.get("property").get("header"),
+        input      : action.value,
+        output     : interf.get("feedback"),
+        timestamp  : Date.now(),
       });
 
       return reduceSignal(state

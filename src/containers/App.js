@@ -3,6 +3,7 @@ import CommandContainer from "./CommandContainer";
 import ControlContainer from "./ControlContainer";
 import OutputContainer from "./OutputContainer";
 import {Scrollbars} from "react-custom-scrollbars";
+import CallbackContainer from "./CallbackContainer";
 
 class App extends Component {
   constructor() {
@@ -22,7 +23,6 @@ class App extends Component {
     let appWidth = this.refs.app.clientWidth;
     let charWidth = this.refs.widthbox.clientWidth;
     window.charLimit = Math.floor(appWidth / charWidth) || 8;
-    console.log(window.charLimit);
   }
 
   handleOutputContainerUpdate() {
@@ -33,6 +33,7 @@ class App extends Component {
     return (
       <div className="App" ref="app">
         <div className="hidden width-box" ref="widthbox">.</div>
+        <CallbackContainer/>
         <div style={{height: "100%"}}>
           <Scrollbars
             autoHide
@@ -43,6 +44,7 @@ class App extends Component {
             }}
             style={{maxHeight: "100%"}}
           >
+
             <ControlContainer/>
             <OutputContainer
               onUpdate={this.handleOutputContainerUpdate}/>

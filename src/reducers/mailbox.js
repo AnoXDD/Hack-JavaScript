@@ -1,7 +1,7 @@
 import Immutable from "immutable";
 
 import Mailbox from "../data/Mailbox";
-import {SET_CHECKPOINT} from "../enum/ActionType";
+import {UPDATE_CHECKPOINT} from "../enum/ActionType";
 import MAILS from "../enum/Mails";
 import {getSenderMail} from "../data/Mail";
 
@@ -47,7 +47,7 @@ function processMails(mailbox, mails) {
 
 export default function reduce(state = new Mailbox(), action) {
   switch (action.type) {
-    case SET_CHECKPOINT:
+    case UPDATE_CHECKPOINT:
       if (action.checkpoint <= state.get("checkpoint")) {
         return state;
       }

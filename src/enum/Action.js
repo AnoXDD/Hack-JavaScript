@@ -1,9 +1,13 @@
 import {
-  SET_CHECKPOINT,
-  USER_BACKSPACE, USER_INPUT, USER_NEXT_COMMAND, USER_PREV_COMMAND,
+  UPDATE_CHECKPOINT,
+  USER_BACKSPACE,
+  USER_INPUT,
+  USER_NEXT_COMMAND,
+  USER_PREV_COMMAND,
   USER_TYPE
 } from "./ActionType";
 import store from "../store";
+import {getCurrentInterfaceId, getLastExecutedCommand} from "../util";
 
 export function type(letter) {
   return {
@@ -43,9 +47,13 @@ export function nextCommand() {
   };
 }
 
-export function setCheckpoint(checkpoint) {
+export function updateCheckpoint(checkpoint = store.getState().checkpoint,
+                                 interfaceId = getCurrentInterfaceId(),
+                                 command = getLastExecutedCommand()) {
   return {
-    type: SET_CHECKPOINT,
+    type: UPDATE_CHECKPOINT,
     checkpoint,
+    interfaceId,
+    command,
   };
 }

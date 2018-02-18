@@ -6,4 +6,10 @@ const STRING = {
   INTRO_END        : "Good! You have successfully guess what to enter to let the adapter show what you want to see. In case you don't know, `help' will bring up all available commands. Type `start' now to start the actual game",
 };
 
+export const COMMAND_HELP = "help";
+export const COMMAND_CLS = "cls";
+export const COMMAND_RESET = "reset";
+
+export const MATCH_ANY = "";
+
 export default STRING;

@@ -1,5 +1,6 @@
 import store from "../store";
 import {ME, SSH_OUTPUT} from "../enum/Names";
+import Interface from "../data/Interface";
 
 export function printLog() {
   store.getState();
@@ -93,7 +94,16 @@ ${mail.get("content")}
 `;
 }
 
-
 export function trimWithEllipsis(str, n = window.charLimit) {
   return str.substr(0, n - 1) + (str.length > n ? '&hellip;' : '');
 }
+
+export function getCurrentInterfaceId(state = store.getState()) {
+  return state.output.get("interface").get("id");
+}
+
+export function getLastExecutedCommand(state = store.getState()) {
+  return (state.output.get("handshakes").last() || new Interface())
+    .get("input");
+}
+

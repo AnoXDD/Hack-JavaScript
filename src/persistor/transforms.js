@@ -1,6 +1,5 @@
 import {createTransform} from "redux-persist";
 import Interface from "../data/Interface";
-import INTERFACES from "../enum/Interfaces";
 
 // Will be called before the state is serialized to string, i.e.
 // state is Immutable
@@ -24,16 +23,12 @@ function serialize(state, key) {
 function deserialize(state, key) {
   switch (key) {
     case "output":
-      let id = state.get("interface").get("id");
-
-      return state.set("interface", INTERFACES[id]);
+      // let id = state.get("interface").get("id");
+      //
+      // return state.set("interface", INTERFACES[id]);
     default:
       return state;
   }
 }
 
 export const transforms = createTransform(serialize, deserialize, {});
-
-export default {
-  transforms,
-};

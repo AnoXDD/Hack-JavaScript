@@ -12,7 +12,7 @@ class OutputContainer extends Component {
         {this.props.handshakes.map(h =>
           <div key={h.timestamp} className="handshake">
             {h.input ? <div
-              className="input command-line">{h.input}</div> : null}
+              className="input command-line">{h.inputHeader}{h.input}</div> : null}
             {h.output ? <div className="output">{h.output.split("\n")
               .map((p, i) => <p key={i}>{p}</p>)}</div> : null}
           </div>

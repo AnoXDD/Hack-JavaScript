@@ -7,15 +7,12 @@ import Arg from "../data/Arg";
 import {
   getHomeId,
   getInternalInterfaceId,
-  getMailSnapshot,
-  getSshLoginInterfaceId, getSshLoginOutput,
+  getSshLoginInterfaceId,
+  getSshLoginOutput,
   getSshOutput,
   printLog
 } from "../util";
-import {
-  COMPANY_INTERNAL, ME, SSH_OUTPUT,
-  SSH_PROP, USER_LIST
-} from "./Names";
+import {COMPANY_INTERNAL, SSH_PROP, USER_LIST} from "./Names";
 import PASSWORDS from "./Passwords";
 
 const INTERFACES = {

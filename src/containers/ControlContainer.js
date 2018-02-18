@@ -3,8 +3,11 @@ import {connect} from "react-redux";
 
 import store from "../store";
 import {
-  type, backspace, send, prevCommand,
-  nextCommand
+  backspace,
+  nextCommand,
+  prevCommand,
+  send,
+  type
 } from "../enum/Action";
 
 class ControlContainer extends Component {

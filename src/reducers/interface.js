@@ -1,7 +1,7 @@
 import {
   COMMAND_CLS, COMMAND_HELP,
   COMMAND_RESET, MATCH_ANY
-} from "../enum/Commands";
+} from "../enum/String";
 import INTERFACES from "../enum/Interfaces";
 import {USER_INPUT} from "../enum/ActionType";
 
@@ -15,7 +15,7 @@ const HELP_NAME_LENGTH = 15;
  * @param param - the rest of parameters to be passed to the function
  */
 function get(immutable, key, ...param) {
-  let val = immutable.get("key");
+  let val = immutable.get(key);
 
   return typeof val === "function" ? val(...param) : val;
 }

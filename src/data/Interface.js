@@ -5,12 +5,13 @@
 import Immutable from "immutable";
 import Property from "./Property";
 import Command from "./Command";
-import {MATCH_ANY} from "../enum/Commands";
+import {MATCH_ANY} from "../enum/String";
 
 const Interface = new Immutable.Record({
   id      : null,
-  // A list of available commands, excluding "help"
-  commands: Immutable.List(),
+  // A list of available commands, excluding "help". Setting this to
+  // null notifies the reducer to re-construct it from INTERFACES
+  commands: null,
   // The id of parent interface
   parentId: null,
   // String only. What will be printed to the console. This field is
