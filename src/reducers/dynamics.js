@@ -1,9 +1,25 @@
 import Immutable from "immutable";
 
-import Mailbox from "../data/Mailbox";
+import Dynamics from "../data/Dynamics";
 import {UPDATE_CHECKPOINT} from "../enum/ActionType";
 import MAILS from "../enum/Mails";
 import {getSenderMail} from "../data/Mail";
+import {RESIGNATION_BOOKED} from "../enum/Checkpoint";
+import {ME} from "../enum/Names";
+
+/**
+ * Processes request with a checkpoint
+ * @param {Immutable.Map} map
+ * @param checkpoint
+ */
+function processRequest(map, checkpoint) {
+  switch (checkpoint) {
+    case RESIGNATION_BOOKED:
+      map.set(ME, Immutable.List([]))
+  }
+
+  return map;
+}
 
 function sendMail(mailbox, m) {
   // Set date
@@ -45,14 +61,18 @@ function processMails(mailbox, mails) {
   return mailbox;
 }
 
-export default function reduce(state = new Mailbox(), action) {
+export default function reduce(state = new Dynamics(), action) {
   switch (action.type) {
     case UPDATE_CHECKPOINT:
-      if (action.checkpoint <= state.get("checkpoint")) {
+      let {checkpoint} = action;
+
+      if (checkpoint <= state.get("checkpoint")) {
         return state;
       }
 
-      let mail = MAILS[action.checkpoint];
+      let request = processRequest(state.get("request"), checkpoint);
+
+      let mail = MAILS[checkpoint];
       if (!mail) {
         return state;
       }
@@ -60,6 +80,7 @@ export default function reduce(state = new Mailbox(), action) {
       let mailbox = processMails(state.get("mailbox"), mail);
 
       return state.set("mailbox", mailbox)
+        .set("request", request)
         .set("checkpoint", action.checkpoint);
 
     default:

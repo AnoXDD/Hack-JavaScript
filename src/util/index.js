@@ -1,6 +1,9 @@
+import Immutable from "immutable";
+
 import store from "../store";
 import {ME, SSH_OUTPUT} from "../enum/Names";
 import Interface from "../data/Interface";
+import COMMANDS from "../enum/Commands";
 
 export function printLog() {
   store.getState();
@@ -8,7 +11,7 @@ export function printLog() {
 }
 
 export function getHomeId() {
-  return "HOME_INITIAL";
+  return "HOME";
 }
 
 export function getSshOutput(name) {
@@ -33,8 +36,16 @@ export function getSshLoginOutput(userId) {
   };
 }
 
-export function getInternalInterfaceId() {
-  return "INTERNAL_PLAYER";
+export function getInternalInterfaceId(id) {
+  return `INTERNAL_${id}`;
+}
+
+export function getRequestCommandId(id) {
+  return `REQUEST_${id}`;
+}
+
+export function getRequestSnapshot(id) {
+
 }
 
 export function getMailCommandId(id) {
@@ -42,7 +53,7 @@ export function getMailCommandId(id) {
 }
 
 export function getMailSnapshot(id) {
-  let list = store.getState().mailbox.get(id);
+  let list = store.getState().dynamics.get("mailbox").get(id);
 
   if (!list) {
     return "You have no email right now";
@@ -74,7 +85,7 @@ export function getMailContent(userId, mailId) {
     return "Use `-v [id]' to see the detail of an email";
   }
 
-  let mailbox = store.getState().mailbox.get(userId);
+  let mailbox = store.getState().dynamics.get("mailbox").get(userId);
 
   if (!mailbox) {
     // Hmm this is not supposed to be happening
@@ -92,6 +103,29 @@ To: ${mail.get("to")}
 Content: 
 ${mail.get("content")}
 `;
+}
+
+/**
+ * @param id
+ * @return {Immutable.List}
+ */
+export function getInternalCommandList(id) {
+  let extra = [];
+
+  switch (id) {
+    case ME:
+      extra = [];
+      break;
+  }
+
+  return Immutable.List([
+    COMMANDS[getMailCommandId(id)],
+    ...extra
+  ])
+}
+
+export function getCurrentCheckpoint() {
+  return store.getState().checkpoint;
 }
 
 export function trimWithEllipsis(str, n = window.charLimit) {

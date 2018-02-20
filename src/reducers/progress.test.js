@@ -27,7 +27,7 @@ test("Introduction of game", () => {
 
   expect(e("next").i).toBe("INTRO_END");
 
-  expect(e("start").i).toBe("HOME_INITIAL");
+  expect(e("start").i).toBe("HOME");
 });
 
 // test("First letter in public mailbox", () => {

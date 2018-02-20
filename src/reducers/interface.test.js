@@ -1,3 +1,5 @@
+import Immutable from "immutable";
+
 import Interface, {
   CancelableInterface,
   PromptInterface
@@ -5,6 +7,7 @@ import Interface, {
 import {send} from "../enum/Action";
 import reduce from "./interface";
 import INTERFACES from "../enum/Interfaces";
+import Command from "../data/Command";
 
 function a(i, cmd) {
   return reduce(i, send(cmd));
@@ -152,15 +155,46 @@ describe("With some commands", () => {
   });
 });
 
-test("Cancelable interface", () => {
-  let c = CancelableInterface(INTERFACES.test.set("parentId",
-    "DUMMY"), [".."], "back");
+describe("Cancelable interface", () => {
+  test("Normal interface", () => {
+    let c = CancelableInterface(INTERFACES.test.set("parentId",
+      "DUMMY"), [".."], "back");
 
-  let i = a(c, "..");
+    let i = a(c, "..");
 
-  expect(i.get("feedback")).toBe("back");
-  expect(i.get("id")).toBe("DUMMY");
+    expect(i.get("feedback")).toBe("back");
+    expect(i.get("id")).toBe("DUMMY");
+  });
+
+  test("Interface with command as callback function", () => {
+    let now = Date.now() - 2000;
+    let intf = new Interface({
+      id      : "local",
+      parentId: "DUMMY",
+      commands: () => Immutable.List([
+        new Command({
+          match      : Immutable.OrderedSet([now > Date.now() ? "yes" : "no"]),
+          help       : "",
+          output     : "yes",
+          interfaceId: null,
+        }),
+      ])
+    });
+
+    now = Date.now() + 2000000;
+
+    let c = CancelableInterface(intf, [".."], "back");
+
+    // Test the match method is actually called when reduced
+    expect(ao(c, "yes")).toBe("yes");
+
+    // Test back
+    let back = a(c, "..");
+    expect(back.get("feedback")).toBe("back");
+    expect(back.get("id")).toBe("DUMMY");
+  })
 });
+
 
 describe("Prompt interface", () => {
   let p = null;

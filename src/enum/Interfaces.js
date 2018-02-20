@@ -1,10 +1,14 @@
 import Immutable from "immutable";
 
 import STRING from "./String";
-import Interface, {PromptInterface} from "../data/Interface";
+import Interface, {
+  CancelableInterface,
+  PromptInterface
+} from "../data/Interface";
 import Command from "../data/Command";
 import Arg from "../data/Arg";
 import {
+  getInternalCommandList,
   getHomeId,
   getInternalInterfaceId,
   getSshLoginInterfaceId,
@@ -14,6 +18,7 @@ import {
 } from "../util";
 import {COMPANY_INTERNAL, SSH_PROP, USER_LIST} from "./Names";
 import PASSWORDS from "./Passwords";
+import COMMANDS from "./Commands";
 
 const INTERFACES = {
   // region test
@@ -157,15 +162,15 @@ const INTERFACES = {
       match      : Immutable.OrderedSet("start".split(" ")),
       help       : "Start playing the game",
       output     : "Initializing ...\nWelcome, Mino",
-      interfaceId: "HOME_INITIAL",
+      interfaceId: "HOME",
     })]),
     parentId: "",
   }),
   // endregion
 
   // region Home
-  "HOME_INITIAL": new Interface({
-    id      : "HOME_INITIAL",
+  "HOME": new Interface({
+    id      : "HOME",
     commands: Immutable.List([
       new Command({
         match      : Immutable.OrderedSet("diary".split(" ")),
@@ -195,18 +200,26 @@ const INTERFACES = {
   // region SSH
   ...USER_LIST.reduce((intf, id) => {
     intf[id] = PromptInterface({
-      source: () => getHomeId,
+      source: () => getHomeId(),
       prompt: () => getSshLoginInterfaceId(id),
       target: () => getInternalInterfaceId(id),
     }, [PASSWORDS[id]], () => getSshLoginOutput(id), ...SSH_PROP);
 
     return intf;
   }, {}),
-
   // endregion
 
   // region Internal
+  ...USER_LIST.reduce((intf, id) => {
+    intf[id] = CancelableInterface(
+      new Interface({
+        id      : getInternalInterfaceId(id),
+        commands: () => getInternalCommandList(id),
+        parentId: () => getHomeId(),
+      }), ["out"], "You have successfully logged out");
 
+    return intf;
+  }, {}),
   // endregion
 
   // region Mailboxes

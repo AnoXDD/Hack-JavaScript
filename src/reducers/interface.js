@@ -57,10 +57,10 @@ function printList(list) {
 function printHelp(interf, name) {
   if (!name) {
     return "Use `help command' to find out more about command\n\n" +
-      printList(interf.get("commands"));
+      printList(get(interf, "commands"));
   }
 
-  let command = findCommand(interf.get("commands"), name, false);
+  let command = findCommand(get(interf, "commands"), name, false);
 
   if (!command) {
     return `No help available for \`${name}'`;
@@ -88,8 +88,8 @@ function execCommand(interf, command, cmd) {
         `More arguments required.\n` + printHelp(interf, cmd[0]));
     }
 
-    let output = get(command,"output");
-    let id = get(command,"interfaceId");
+    let output = get(command, "output");
+    let id = get(command, "interfaceId");
     id = typeof id === "function" ? id(cmd[0]) : id;
 
     return (INTERFACES[id] || interf)
@@ -109,8 +109,8 @@ function execCommand(interf, command, cmd) {
       printHelp(interf, cmd[0]));
   }
 
-  let output = get(arg,"output",val);
-  let id = get(arg,"interfaceId",val);
+  let output = get(arg, "output", val);
+  let id = get(arg, "interfaceId", val);
 
   return (INTERFACES[id] || interf)
     .set("feedback", execOutput(output, val));
@@ -156,7 +156,7 @@ function reduceInterface(interf, cmd) {
 
   // Match commands
   // todo make match first letter work
-  let command = findCommand(interf.get("commands"), cmd[0]);
+  let command = findCommand(get(interf, "commands"), cmd[0]);
 
   if (!command) {
     // Cannot recognize this command

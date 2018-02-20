@@ -23,7 +23,7 @@ const Interface = new Immutable.Record({
 /**
  * Creates a cancelable interface, which can go to whoever called it
  * (specified by parentId)
- * @param {Interface|Immutable.Record} interf
+ * @param {Interface|Immutable.Record|Immutable.Map} interf
  * @param {Array} match - command to be matched
  * @param {*} output - function or string to be output
  */
@@ -36,9 +36,14 @@ export function CancelableInterface(interf, match, output) {
   });
 
   // Prepend it
-  let newCommands = [command, ...interf.get("commands").toArray()];
-
-  return interf.set("commands", newCommands);
+  let commands = interf.get("commands");
+  if (typeof commands === "function") {
+    return interf.set("commands", () =>
+      commands().unshift(command)
+    );
+  } else {
+    return interf.set("commands", commands.unshift(command));
+  }
 }
 
 /**

@@ -211,6 +211,7 @@ Of course I won't send it to you directly, so here's the hint:
       content: c,
       // A random day in 2017
       date   : new Date(2017, 0, Math.random() * 365).getTime(),
+      read   : true,
     }))],
     new Mail({
       from   : SUPER_MANAGER_ALT,
@@ -219,6 +220,7 @@ Of course I won't send it to you directly, so here's the hint:
       content: `Another new hire, right? You don't need to follow them anyways. Trust me, they will get to be better as time goes by.
 
 By the way are you free the coming Saturday? My son is turning 100-day old that day, and we are throwing out a party.`,
+      read   : true,
     })
   ],
 
@@ -272,6 +274,7 @@ Please try again later to see if it works`,
       from   : HR_DEPT,
       to     : MANAGER_NEW_RESOURCE,
       content: `Congratulations! You are now promoted to the manager of the Department of New Resource. Your ID was also changed to ${MANAGER_NEW_ID}.`,
+      read   : true,
     }),
     new Mail({
       from   : NO_REPLY,
@@ -279,6 +282,7 @@ Please try again later to see if it works`,
       content: `This is an automated email regarding a new task assigned to ${MANAGER_NEW_ID}.
     
 ${COMPANY} is recently working on No. 1384 – a really potential product that may bring our company huge profit in the near future. However, there are still doing extensive research on it. Your task is to take a group of select researchers to track its physical and chemical property under condition codenamed C023 to C481, and send us report by next week. `,
+      read   : true,
     })
   ],
 
@@ -335,6 +339,7 @@ Also, we know your adapter was installed a corrupted plugin. We have cracked it 
       content: `Things are driving me crazy. I doubt if I can still attend the meeting next week. 
     
 I finally made an appointment with Mrs. ${DIRECTOR_ALT_TUTOR} for her tutor class. It's so hard to schedule it, and ${DIRECTOR_ALT_KID} was excited about this since like forever. Could you somehow reschedule the meeting? Thanks.`,
+      read   : true,
     }),
     new Mail({
       from   : RANDOM_EMPLOYEE_ALT,
@@ -342,6 +347,7 @@ I finally made an appointment with Mrs. ${DIRECTOR_ALT_TUTOR} for her tutor clas
       content: `Maybe it's time to re-think our strategies.
     
 For the past three years, we lost almost every agent we trained here at ${COMPANY_ALT}, and ironically, the only time we can see them again was always when they were sent back to us. So before we can come up with something to counteract it, just update the surveillance system. Otherwise everything I did is in vain; we cannot, and never will be able to keep them.`,
+      read   : true,
     }),
   ],
 };
