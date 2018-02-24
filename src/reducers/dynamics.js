@@ -6,19 +6,14 @@ import MAILS from "../enum/Mails";
 import {getSenderMail} from "../data/Mail";
 import {RESIGNATION_BOOKED} from "../enum/Checkpoint";
 import {ME} from "../enum/Names";
+import REQUESTS from "../enum/Requests";
 
 /**
  * Processes request with a checkpoint
- * @param {Immutable.Map} map
  * @param checkpoint
  */
-function processRequest(map, checkpoint) {
-  switch (checkpoint) {
-    case RESIGNATION_BOOKED:
-      map.set(ME, Immutable.List([]))
-  }
-
-  return map;
+function processRequest(checkpoint) {
+  return REQUESTS[checkpoint] || null;
 }
 
 function sendMail(mailbox, m) {
@@ -70,7 +65,7 @@ export default function reduce(state = new Dynamics(), action) {
         return state;
       }
 
-      let request = processRequest(state.get("request"), checkpoint);
+      let request = processRequest(checkpoint);
 
       let mail = MAILS[checkpoint];
       if (!mail) {

@@ -16,7 +16,7 @@ const REQUESTS = {
   }),
   [ANONYMOUS_FIRST_EMAIL]   : new Request({
     owner : ME,
-    status: "Sent",
+    status: "Canceled",
     title : "Short talk with manager",
   }),
   [PROMOTION_RECEIVED]      : new Request({

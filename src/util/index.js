@@ -1,9 +1,10 @@
 import Immutable from "immutable";
 
 import store from "../store";
-import {ME, SSH_OUTPUT} from "../enum/Names";
+import {MANAGER, ME, SSH_OUTPUT} from "../enum/Names";
 import Interface from "../data/Interface";
 import COMMANDS from "../enum/Commands";
+import {INTERNAL_PASSWORD_ACQUIRED} from "../enum/Checkpoint";
 
 export function printLog() {
   store.getState();
@@ -44,8 +45,59 @@ export function getRequestCommandId(id) {
   return `REQUEST_${id}`;
 }
 
-export function getRequestSnapshot(id) {
+function _getCurrentRequest(id) {
+  let request = store.getState().dynamics.get("request");
+  if (!request || request.get("owner") !== id) {
+    return null;
+  }
 
+  return request;
+}
+
+export function getRequestSnapshot(id) {
+  let request = _getCurrentRequest(id);
+  if (!request) {
+    return "You have no request right now";
+  }
+
+  return `You have an open request.
+  
+Status: ${request.get("status")}
+${request.get("title")}`;
+}
+
+export function acceptRequest(id) {
+  let request = _getCurrentRequest(id);
+  if (!request) {
+    return "You have no request right now";
+  }
+
+  if (request.get("status") !== "Received") {
+    return "You can't accept this request";
+  }
+
+  return "Request accepted";
+}
+
+export function bookRequest() {
+  if (getCurrentCheckpoint() === INTERNAL_PASSWORD_ACQUIRED) {
+    return `You have booked a meeting with ${MANAGER}`;
+  }
+
+  return "Everyone is busy right now :)";
+}
+
+export function cancelRequest(id) {
+  let request = _getCurrentRequest(id);
+  if (!request) {
+    return "You have no request right now";
+  }
+
+  if (request.get("status") !== "Processing") {
+    return "You can't cancel this request";
+  }
+
+  return "Request canceled";
 }
 
 export function getMailCommandId(id) {
