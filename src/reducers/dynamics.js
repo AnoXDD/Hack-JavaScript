@@ -63,9 +63,9 @@ export default function reduce(state = INITIAL_STATE, action) {
     case RESET:
       return INITIAL_STATE;
     case UPDATE_CHECKPOINT:
-      let {checkpoint} = action;
+      let {checkpoint, forceUpdate} = action;
 
-      if (checkpoint <= state.get("checkpoint")) {
+      if (checkpoint <= state.get("checkpoint") && !forceUpdate) {
         return state;
       }
 
