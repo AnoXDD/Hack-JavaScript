@@ -1,6 +1,6 @@
 import Immutable from "immutable";
 
-import STRING from "./String";
+import STRING, {ACTUAL_GAME_WELCOME} from "./String";
 import Interface, {
   CancelableInterface,
   PromptInterface
@@ -8,17 +8,15 @@ import Interface, {
 import Command from "../data/Command";
 import Arg from "../data/Arg";
 import {
-  getInternalCommandList,
+  getHomeCommands,
   getHomeId,
+  getInternalCommandList,
   getInternalInterfaceId,
   getSshLoginInterfaceId,
-  getSshLoginOutput,
-  getSshOutput,
-  printLog
+  getSshLoginOutput
 } from "../util";
-import {COMPANY_INTERNAL, SSH_PROP, USER_LIST} from "./Names";
+import {SSH_PROP, USER_LIST} from "./Names";
 import PASSWORDS from "./Passwords";
-import COMMANDS from "./Commands";
 
 const INTERFACES = {
   // region test
@@ -119,16 +117,26 @@ const INTERFACES = {
   // region Intro
   "INTRO_WELCOME"    : new Interface({
     id      : "INTRO_WELCOME",
-    commands: Immutable.List([new Command({
-      match      : Immutable.Set("next".split(" ")),
-      help       : "Go to next paragraph",
-      output     : STRING.INTRO_PARAM,
-      interfaceId: "INTRO_PARAM",
-    }), new Command({
-      match      : Immutable.Set("test".split(" ")),
-      output     : "TEST",
-      interfaceId: "test",
-    })]),
+    commands: Immutable.List([
+      new Command({
+        match      : Immutable.Set("next".split(" ")),
+        help       : "Go to next paragraph",
+        output     : STRING.INTRO_PARAM,
+        interfaceId: "INTRO_PARAM",
+      }),
+      new Command({
+        match      : Immutable.OrderedSet("skip".split(" ")),
+        help       : "Skip the tutorial and start the game",
+        output     : ACTUAL_GAME_WELCOME,
+        interfaceId: "HOME",
+        args       : Immutable.List([]),
+      }),
+      new Command({
+        match      : Immutable.Set("test".split(" ")),
+        output     : "TEST",
+        interfaceId: "test",
+      })
+    ]),
     parentId: "",
   }),
   "INTRO_PARAM"      : new Interface({
@@ -161,7 +169,7 @@ const INTERFACES = {
     commands: Immutable.List([new Command({
       match      : Immutable.OrderedSet("start".split(" ")),
       help       : "Start playing the game",
-      output     : "Initializing ...\nWelcome, Mino",
+      output     : ACTUAL_GAME_WELCOME,
       interfaceId: "HOME",
     })]),
     parentId: "",
@@ -171,28 +179,7 @@ const INTERFACES = {
   // region Home
   "HOME": new Interface({
     id      : "HOME",
-    commands: Immutable.List([
-      new Command({
-        match      : Immutable.OrderedSet("diary".split(" ")),
-        help       : "Shows the diary that I kept",
-        output     : printLog,
-        interfaceId: null,
-      }),
-      new Command({
-        match : Immutable.OrderedSet(COMPANY_INTERNAL.toLowerCase()
-          .split(" ")),
-        help  : `Logs into ${COMPANY_INTERNAL}`,
-        output: null,
-        args  : Immutable.List([
-          new Arg({
-            match      : Immutable.Set("-u".split(" ")),
-            help       : "As username ...",
-            output     : getSshOutput,
-            interfaceId: getSshLoginInterfaceId,
-          })
-        ]),
-      })
-    ]),
+    commands: () => getHomeCommands(),
     parentId: "",
   }),
   // endregion

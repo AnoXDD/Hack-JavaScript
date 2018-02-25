@@ -1,10 +1,11 @@
 import {
+  RESET,
   USER_BACKSPACE, USER_INPUT, USER_NEXT_COMMAND, USER_PREV_COMMAND,
   USER_TYPE
 } from "../enum/ActionType";
 import Input from "../data/Input";
 
-const initialState = new Input();
+const INITIAL_STATE = new Input();
 
 /**
  * Gets the history with a delta (go back or forward)
@@ -35,8 +36,10 @@ function syncLastCommand(state) {
   return state;
 }
 
-export default function reduce(state = initialState, action) {
+export default function reduce(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case RESET:
+      return INITIAL_STATE;
     case USER_TYPE:
       return syncLastCommand(state.set("value", state.get("value") + action.letter));
     case USER_BACKSPACE: {

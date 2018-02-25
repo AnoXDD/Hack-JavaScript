@@ -4,3 +4,4 @@ export const USER_INPUT = "USER_INPUT";
 export const USER_PREV_COMMAND = "USER_PREV_COMMAND";
 export const USER_NEXT_COMMAND = "USER_NEXT_COMMAND";
 export const UPDATE_CHECKPOINT = "UPDATE_CHECKPOINT";
+export const RESET = "RESET";

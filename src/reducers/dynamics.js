@@ -1,11 +1,11 @@
 import Immutable from "immutable";
 
 import Dynamics from "../data/Dynamics";
-import {UPDATE_CHECKPOINT} from "../enum/ActionType";
+import {RESET, UPDATE_CHECKPOINT} from "../enum/ActionType";
 import MAILS from "../enum/Mails";
 import {getSenderMail} from "../data/Mail";
 import {RESIGNATION_BOOKED} from "../enum/Checkpoint";
-import {ME} from "../enum/Names";
+import {ME_COMPANY} from "../enum/Names";
 import REQUESTS from "../enum/Requests";
 
 /**
@@ -56,8 +56,12 @@ function processMails(mailbox, mails) {
   return mailbox;
 }
 
-export default function reduce(state = new Dynamics(), action) {
+const INITIAL_STATE = new Dynamics();
+
+export default function reduce(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case RESET:
+      return INITIAL_STATE;
     case UPDATE_CHECKPOINT:
       let {checkpoint} = action;
 

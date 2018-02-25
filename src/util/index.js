@@ -1,10 +1,18 @@
 import Immutable from "immutable";
 
 import store from "../store";
-import {MANAGER, ME, SSH_OUTPUT} from "../enum/Names";
+import {
+  COMPANY_INTERNAL, MANAGER, ME, ME_COMPANY,
+  SSH_OUTPUT
+} from "../enum/Names";
 import Interface from "../data/Interface";
 import COMMANDS from "../enum/Commands";
-import {INTERNAL_PASSWORD_ACQUIRED} from "../enum/Checkpoint";
+import {
+  CHECKPOINT_LIST,
+  INTERNAL_PASSWORD_ACQUIRED
+} from "../enum/Checkpoint";
+import Arg from "../data/Arg";
+import Command from "../data/Command";
 
 export function printLog() {
   store.getState();
@@ -17,7 +25,7 @@ export function getHomeId() {
 
 export function getSshOutput(name) {
   switch (name) {
-    case ME:
+    case ME_COMPANY:
       return `User: ${name}`;
     default:
       return `${name}: user not found`;
@@ -165,13 +173,14 @@ export function getInternalCommandList(id) {
   let extra = [];
 
   switch (id) {
-    case ME:
+    case ME_COMPANY:
       extra = [];
       break;
   }
 
   return Immutable.List([
     COMMANDS[getMailCommandId(id)],
+    COMMANDS[getRequestCommandId(id)],
     ...extra
   ])
 }
@@ -193,3 +202,33 @@ export function getLastExecutedCommand(state = store.getState()) {
     .get("input");
 }
 
+export function getHomeCommands() {
+  let list = [new Command({
+    match      : Immutable.OrderedSet("diary".split(" ")),
+    help       : "Shows the diary that I kept",
+    output     : printLog,
+    interfaceId: null,
+  }),
+    COMMANDS[getMailCommandId(ME)]
+  ];
+
+  // todo add if condition when it is not available
+  list.push(new Command({
+    match : Immutable.OrderedSet(COMPANY_INTERNAL.toLowerCase()
+      .split(" ")),
+    help  : `Logs into ${COMPANY_INTERNAL}`,
+    output: null,
+    args  : Immutable.List([
+      new Arg({
+        match      : Immutable.Set("-u".split(" ")),
+        help       : "As username ...",
+        output     : getSshOutput,
+        interfaceId: getSshLoginInterfaceId,
+      })
+    ]),
+  }));
+
+  // todo add plugin
+
+  return Immutable.List(list);
+}

@@ -3,12 +3,12 @@ import Immutable from "immutable";
 import Output from "../data/Output";
 import INTERFACES from "../enum/Interfaces";
 import reduceInterface from "./interface";
-import {USER_INPUT} from "../enum/ActionType";
+import {RESET, USER_INPUT} from "../enum/ActionType";
 import Handshake from "../data/Handshake";
 import STRING from "../enum/String";
 import {COMMAND_CLS} from "../enum/String";
 
-const initState = new Output({
+const INITIAL_STATE = new Output({
   interface : INTERFACES.INTRO_WELCOME,
   handshakes: new Immutable.List([
     new Handshake({
@@ -32,14 +32,16 @@ function reduceSignal(state) {
   }
 }
 
-export default function reduce(state = initState, action) {
-  // Initialize interface if necessary
+export default function reduce(state = INITIAL_STATE, action) {
+  // Saturates interface with id if necessary
   if (state.get("interface").get("commands") === null) {
     state = state.set("interface",
       INTERFACES[state.get("interface").get("id")]);
   }
 
   switch (action.type) {
+    case RESET:
+      return INITIAL_STATE;
     case USER_INPUT:
       let interf = reduceInterface(state.get("interface"), action);
 

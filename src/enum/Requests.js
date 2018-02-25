@@ -6,26 +6,26 @@ import {
   RESIGNATION_CANCELED, SPY_OFFERED_PLUGIN
 } from "./Checkpoint";
 import Request from "../data/Request";
-import {COMPANY, COMPANY_ALT, MANAGER, ME, ME_ALT} from "./Names";
+import {COMPANY, COMPANY_ALT, MANAGER, ME_COMPANY, ME_ALT} from "./Names";
 
 const REQUESTS = {
   [RESIGNATION_BOOKED]      : new Request({
-    owner : ME,
+    owner : ME_COMPANY,
     status: "Processing",
     title : "Short talk with manager",
   }),
   [ANONYMOUS_FIRST_EMAIL]   : new Request({
-    owner : ME,
+    owner : ME_COMPANY,
     status: "Canceled",
     title : "Short talk with manager",
   }),
   [PROMOTION_RECEIVED]      : new Request({
-    owner : ME,
+    owner : ME_COMPANY,
     status: "Received",
     title : "Promotion: confidential work",
   }),
   [PROMOTION_OFFER_VIEWED]  : new Request({
-    owner : ME,
+    owner : ME_COMPANY,
     status: "Received",
     title : `Plugin: ${COMPANY_ALT} access`,
   }),
@@ -40,7 +40,7 @@ const REQUESTS = {
     title : `Plugin: ${COMPANY} elevated access`,
   }),
   [MANAGER_OFFER_NEW_PLUGIN]: new Request({
-    owner : ME,
+    owner : ME_COMPANY,
     status: "Received",
     title : `Plugin: ${COMPANY_ALT} access v2`,
   }),

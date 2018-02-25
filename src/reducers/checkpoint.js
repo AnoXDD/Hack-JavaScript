@@ -1,4 +1,4 @@
-import {UPDATE_CHECKPOINT} from "../enum/ActionType";
+import {RESET, UPDATE_CHECKPOINT} from "../enum/ActionType";
 import {TUTORIAL} from "../enum/Checkpoint";
 
 function updateCheckpoint(checkpoint, interfaceId, command) {
@@ -7,8 +7,13 @@ function updateCheckpoint(checkpoint, interfaceId, command) {
   return checkpoint;
 }
 
-export default function reduce(state = TUTORIAL, action) {
+const INITIAL_STATE = TUTORIAL;
+
+export default function reduce(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case RESET:
+      return INITIAL_STATE;
+
     case UPDATE_CHECKPOINT:
       let {checkpoint, interfaceId, command} = action;
 

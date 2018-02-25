@@ -1,34 +1,67 @@
-import {send} from "../enum/Action";
+import {reset, send} from "../enum/Action";
 import reduce from "./interface";
 import INTERFACES from "../enum/Interfaces";
+import store from "../store";
 
 let i = INTERFACES.INTRO_WELCOME;
 
 /**
- * Executes a command
+ * Sends command
  * @param cmd
  */
-function e(cmd) {
-  i = reduce(i, send(cmd));
-
-  return {
-    f: i.get("feedback"),
-    i: i.get("id"),
-    h: i.get("header"),
-    p: i.get("password"),
-  };
+function cmd(cmd) {
+  store.dispatch(send(cmd));
 }
 
-test("Introduction of game", () => {
-  expect(e("next").i).toBe("INTRO_PARAM");
+/**
+ * Expects the id from the last command
+ * @param toBe - the expected id
+ */
+function id(toBe) {
+  expect(store.getState().output.toJS().interface.id).toBe(toBe);
+}
 
-  expect(e("next").i).toBe("INTRO_PARAM");
-  expect(e("next -p").i).toBe("INTRO_PARAM_GUESS");
+/**
+ * Expects the output from the last command
+ * @param toBe - the expected output
+ */
+function out(toBe) {
+  expect(store.getState()
+    .output
+    .get("handshakes")
+    .last()
+    .get("output")).toBe(toBe);
+}
 
-  expect(e("next").i).toBe("INTRO_END");
+describe("Tutorial", () => {
+  beforeEach(() => {
+    store.dispatch(reset());
+  });
 
-  expect(e("start").i).toBe("HOME");
+  test("Skip tutorial", () => {
+    cmd("skip");
+    id("HOME");
+  });
+
+  test("Go to test", () => {
+    cmd("test");
+    id("test");
+  });
+
+  test("Go through tutorial", () => {
+    cmd("next");
+    id("INTRO_PARAM");
+
+    // Requires argument
+    cmd("next");
+    id("INTRO_PARAM");
+    cmd("next -p");
+    id("INTRO_PARAM_GUESS");
+
+    cmd("next");
+    id("INTRO_END");
+
+    cmd("start");
+    id("HOME");
+  });
 });
-
-// test("First letter in public mailbox", () => {
-// })

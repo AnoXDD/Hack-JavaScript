@@ -1,4 +1,6 @@
 import {
+  APPLY_CHECKPOINT,
+  RESET,
   UPDATE_CHECKPOINT,
   USER_BACKSPACE,
   USER_INPUT,
@@ -55,5 +57,21 @@ export function updateCheckpoint(checkpoint = store.getState().checkpoint,
     checkpoint,
     interfaceId,
     command,
+  };
+}
+
+/**
+ * Resets the game and force the current checkpoint to be the one
+ * provided
+ * @param checkpoint
+ * @return {{type}}
+ */
+export function applyCheckpoint(checkpoint) {
+
+}
+
+export function reset() {
+  return {
+    type: RESET,
   };
 }

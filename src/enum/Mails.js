@@ -13,14 +13,14 @@ import {
   MANAGER_ALT,
   MANAGER_NEW_ID,
   MANAGER_NEW_RESOURCE,
-  ME,
+  ME_COMPANY,
   ME_ALT,
   NO_REPLY,
   RANDOM_EMPLOYEE_ALT,
   SECURITY_DEPT,
   SPAM_SENDER,
   SPY,
-  SUPER_MANAGER_ALT
+  SUPER_MANAGER_ALT, ME
 } from "./Names";
 import PASSWORDS from "./Passwords";
 import {
@@ -63,7 +63,7 @@ const MAILS = {
   }),
   [RESIGNATION_CANCELED_LOGGED_OUT]: new Mail({
     from   : MANAGER,
-    to     : ME,
+    to     : ME_COMPANY,
     content: `I am very pleased to see your excellent work the past few years, and today I want to tell you that you are being offered a new job with higher salary. 
 
 This new job requires you to infiltrate ${COMPANY_ALT} to collect some intelligence. As you know, ${COMPANY_ALT} has been our main competitor since day one, and we will be appreciated for anything that you could do for us. 
@@ -77,7 +77,7 @@ You will see a follow up request soon. Feel free to accept it if you are interes
   }),
   [PROMOTION_ACCEPTED]             : new Mail({
     from   : MANAGER,
-    to     : ME,
+    to     : ME_COMPANY,
     content: `Great! Here is what your new job is about. Please download and install the attachment below, which will be used to get access to their internal system ${COMPANY_ALT_INTERNAL}. 
      
 You will be known as ${ME_ALT} in ${COMPANY_ALT}. Our team has already set up an account for you in their internal system ${COMPANY_ALT_INTERNAL}, but unfortunately we lost the password somehow (well well, I know...), but fortunately we know it's pure four digits, so maybe you can try to guess it?
@@ -91,7 +91,7 @@ Also don't forget to keep us updated. Anything you see on ${COMPANY_ALT_INTERNAL
   }),
   [INTERNAL_ALT_WELCOME]           : new Mail({
     from   : MANAGER,
-    to     : ME,
+    to     : ME_COMPANY,
     content: `Good job guessing the password! I guess ${MANAGER_ALT} is your supervisor or something. Try to guess his password again to see if you could find anything related to ${SPY}. We sent him a few months back, but he went radio silent several weeks ago`,
   }),
   [SPAM_PASSWORD]                  : new Mail({
@@ -125,7 +125,7 @@ So I would recommend to hold on for a while. Again, it doesn't hurt :)`,
     }),
     new Mail({
       from   : MANAGER,
-      to     : ME,
+      to     : ME_COMPANY,
       content: `How's it going? I just saw that Echo contacted you and explained what happened :( We are still trying to see what we could do for him. `,
     })
   ],
@@ -247,7 +247,7 @@ It will probably ask you to specify the ID number, and I heard somewhere that ev
   }),
 
   [ALT_NEW_JOB]                    : new Mail({
-    from   : ME,
+    from   : ME_COMPANY,
     to     : MANAGER,
     content: `Sounds like you are making big progress! I saw the email ${SUPER_MANAGER_ALT} sent you. Just want to tell you it's okay because we always spread fake intelligence around for fun :D`,
   }),
@@ -322,13 +322,13 @@ General Rule: The Final Step For Decryption Each Time Is ALWAYS To Add Space(s) 
   }),
   [NEW_TASK_SURVEILLANCE_COMPLETED]: new Mail({
     from   : MANAGER,
-    to     : ME,
+    to     : ME_COMPANY,
     content: `GREAT JOB! You have helped all our spies in their surveillance system out. Now people in ${COMPANY_ALT} must be funny to watch because they must have no idea what is going on lol`,
   }),
   [MANAGER_CONGRATS]               : [
     new Mail({
       from   : MANAGER,
-      to     : ME,
+      to     : ME_COMPANY,
       content: `Oops I guess I was too excited. I forgot to send you updated plugin to access ${COMPANY_ALT_INTERNAL}. Of course they also updated their system after the break-out, but you see, it still doesn't work.
     
 Also, we know your adapter was installed a corrupted plugin. We have cracked it from server and it is harmless now. We also double checked this plugin, so don't worry...`,
