@@ -10,11 +10,23 @@ const STRING = {
 
 export const ACTUAL_GAME_WELCOME = `Initializing ...\nWelcome, ${ME}`;
 
+export const MAIL_EMPTY = "You have no email right now";
+export const MAIL_NO_UNREAD = "You have no new email right now";
+export const REQUEST_EMPTY = "You have no request right now";
+export const USER_LOGGED_OUT = "You have successfully logged out";
 
+// region command
 export const COMMAND_HELP = "help";
 export const COMMAND_CLS = "cls";
 export const COMMAND_RESET = "reset";
-
+export const COMMAND_REQUEST = "req";
 export const MATCH_ANY = "";
+// endregion
+
+export const SSH_OUTPUT = {
+  fail: "Username and password does not match",
+};
+export const PASSWORD_HEADER = "Password: ";
+export const SSH_PROP = [PASSWORD_HEADER, true];
 
 export default STRING;

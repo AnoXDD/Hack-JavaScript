@@ -5,10 +5,12 @@ import {
   acceptRequest, bookRequest, cancelRequest,
   getMailCommandId,
   getMailContent,
-  getMailSnapshot, getRequestCommandId, getRequestSnapshot
+  getMailSnapshot, getRequestCommandId, getRequestSnapshot,
+  getUnreadMailContent
 } from "../util";
 import Command from "../data/Command";
 import Arg from "../data/Arg";
+import {COMMAND_REQUEST} from "./String";
 
 const COMMANDS = {
   // Mailboxes
@@ -20,8 +22,14 @@ const COMMANDS = {
       interfaceId: null,
       args       : Immutable.List([
         new Arg({
-          match      : Immutable.Set("-v".split(" ")),
-          help       : "See the detail of an email",
+          match      : Immutable.Set("-u".split(" ")),
+          help       : "Read the new (unread) email (if any)",
+          output     : () => getUnreadMailContent(user),
+          interfaceId: null,
+        }),
+        new Arg({
+          match      : Immutable.Set("-r".split(" ")),
+          help       : "Read the a specific email",
           output     : id => getMailContent(user, id),
           interfaceId: null,
         })
@@ -34,7 +42,7 @@ const COMMANDS = {
   // Requests
   ...USER_LIST.reduce((commands, user) => {
     commands[getRequestCommandId(user)] = new Command({
-      match      : Immutable.OrderedSet("req".split(" ")),
+      match      : Immutable.OrderedSet(COMMAND_REQUEST.split(" ")),
       help       : "View and process the request",
       output     : () => getRequestSnapshot(user),
       interfaceId: null,

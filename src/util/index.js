@@ -2,17 +2,21 @@ import Immutable from "immutable";
 
 import store from "../store";
 import {
-  COMPANY_INTERNAL, MANAGER, ME, ME_COMPANY,
-  SSH_OUTPUT
+  COMPANY_INTERNAL,
+  MANAGER,
+  ME,
+  ME_COMPANY,
 } from "../enum/Names";
 import Interface from "../data/Interface";
 import COMMANDS from "../enum/Commands";
-import {
-  CHECKPOINT_LIST,
-  INTERNAL_PASSWORD_ACQUIRED
-} from "../enum/Checkpoint";
+import {INTERNAL_PASSWORD_ACQUIRED} from "../enum/Checkpoint";
 import Arg from "../data/Arg";
 import Command from "../data/Command";
+import {
+  MAIL_EMPTY,
+  MAIL_NO_UNREAD,
+  REQUEST_EMPTY, SSH_OUTPUT
+} from "../enum/String";
 
 export function printLog() {
   store.getState();
@@ -65,7 +69,7 @@ function _getCurrentRequest(id) {
 export function getRequestSnapshot(id) {
   let request = _getCurrentRequest(id);
   if (!request) {
-    return "You have no request right now";
+    return REQUEST_EMPTY;
   }
 
   return `You have an open request.
@@ -77,7 +81,7 @@ ${request.get("title")}`;
 export function acceptRequest(id) {
   let request = _getCurrentRequest(id);
   if (!request) {
-    return "You have no request right now";
+    return REQUEST_EMPTY;
   }
 
   if (request.get("status") !== "Received") {
@@ -98,7 +102,7 @@ export function bookRequest() {
 export function cancelRequest(id) {
   let request = _getCurrentRequest(id);
   if (!request) {
-    return "You have no request right now";
+    return REQUEST_EMPTY;
   }
 
   if (request.get("status") !== "Processing") {
@@ -112,21 +116,25 @@ export function getMailCommandId(id) {
   return `MAIL_${id}`;
 }
 
+function mailIndexToId(index) {
+  return index + 1;
+}
+
 export function getMailSnapshot(id) {
   let list = store.getState().dynamics.get("mailbox").get(id);
 
   if (!list) {
-    return "You have no email right now";
+    return MAIL_EMPTY;
   }
 
-  let unread = list.filter(m => !m.get("read")).length;
+  let unread = list.filter(m => !m.get("read")).size;
   let header = unread ? `You have ${unread} unread email${unread === 1 ? "" : "s"}\n` : "";
 
   return header + "&uarr; means an email sent. &darr; means an email received\n\n" +
     " id   from/to    content\n" +
     list.reverse()
       .map((m, i) => {
-        let mailId = `${i + 1} `.substr(0, 2);
+        let mailId = `${mailIndexToId(i)} `.substr(0, 2);
         let isRead = m.get("read") ? "*" : " ";
         let isSender = m.get("from") === id;
         let sendSign = isSender ? "&uarr;" : "&darr;";
@@ -140,9 +148,25 @@ export function getMailSnapshot(id) {
 Use \`-v [id]' to see the detail of an email`;
 }
 
+export function getUnreadMailContent(id) {
+  let list = store.getState().dynamics.get("mailbox").get(id);
+
+  if (!list) {
+    return MAIL_EMPTY;
+  }
+
+  let unreadIndex = list.findIndex(m => !m.get("read"));
+
+  if (unreadIndex === -1) {
+    return MAIL_NO_UNREAD;
+  }
+
+  return getMailCommandId(id, mailIndexToId(unreadIndex));
+}
+
 export function getMailContent(userId, mailId) {
   if (mailId === undefined) {
-    return "Use `-v [id]' to see the detail of an email";
+    return "Use `-r [id]' to read a specific email";
   }
 
   let mailbox = store.getState().dynamics.get("mailbox").get(userId);
@@ -202,6 +226,10 @@ export function getLastExecutedCommand(state = store.getState()) {
     .get("input");
 }
 
+export function getCompanyInternalCommand() {
+  return COMPANY_INTERNAL.toLowerCase();
+}
+
 export function getHomeCommands() {
   let list = [new Command({
     match      : Immutable.OrderedSet("diary".split(" ")),
@@ -214,7 +242,7 @@ export function getHomeCommands() {
 
   // todo add if condition when it is not available
   list.push(new Command({
-    match : Immutable.OrderedSet(COMPANY_INTERNAL.toLowerCase()
+    match : Immutable.OrderedSet(getCompanyInternalCommand()
       .split(" ")),
     help  : `Logs into ${COMPANY_INTERNAL}`,
     output: null,

@@ -1,6 +1,9 @@
 import Immutable from "immutable";
 
-import STRING, {ACTUAL_GAME_WELCOME} from "./String";
+import STRING, {
+  ACTUAL_GAME_WELCOME, SSH_PROP,
+  USER_LOGGED_OUT
+} from "./String";
 import Interface, {
   CancelableInterface,
   PromptInterface
@@ -15,7 +18,7 @@ import {
   getSshLoginInterfaceId,
   getSshLoginOutput
 } from "../util";
-import {SSH_PROP, USER_LIST} from "./Names";
+import { USER_LIST} from "./Names";
 import PASSWORDS from "./Passwords";
 
 const INTERFACES = {
@@ -203,7 +206,7 @@ const INTERFACES = {
         id      : getInternalInterfaceId(id),
         commands: () => getInternalCommandList(id),
         parentId: () => getHomeId(),
-      }), ["out"], "You have successfully logged out");
+      }), ["out"], USER_LOGGED_OUT);
 
     return intf;
   }, {}),

@@ -1,6 +1,6 @@
 import {
   ALT_NEW_JOB_DESCRIPTION,
-  ANONYMOUS_FIRST_EMAIL, MANAGER_OFFER_NEW_PLUGIN, PROMOTION_ACCEPTED,
+  ANONYMOUS_FIRST_EMAIL_VIEWED, MANAGER_OFFER_NEW_PLUGIN, PROMOTION_ACCEPTED,
   PROMOTION_OFFER_VIEWED,
   PROMOTION_RECEIVED, RESIGNATION_BOOKED,
   RESIGNATION_CANCELED, SPY_OFFERED_PLUGIN
@@ -9,27 +9,27 @@ import Request from "../data/Request";
 import {COMPANY, COMPANY_ALT, MANAGER, ME_COMPANY, ME_ALT} from "./Names";
 
 const REQUESTS = {
-  [RESIGNATION_BOOKED]      : new Request({
+  [RESIGNATION_BOOKED]          : new Request({
     owner : ME_COMPANY,
     status: "Processing",
     title : "Short talk with manager",
   }),
-  [ANONYMOUS_FIRST_EMAIL]   : new Request({
+  [ANONYMOUS_FIRST_EMAIL_VIEWED]: new Request({
     owner : ME_COMPANY,
     status: "Canceled",
     title : "Short talk with manager",
   }),
-  [PROMOTION_RECEIVED]      : new Request({
+  [PROMOTION_RECEIVED]          : new Request({
     owner : ME_COMPANY,
     status: "Received",
     title : "Promotion: confidential work",
   }),
-  [PROMOTION_OFFER_VIEWED]  : new Request({
+  [PROMOTION_OFFER_VIEWED]      : new Request({
     owner : ME_COMPANY,
     status: "Received",
     title : `Plugin: ${COMPANY_ALT} access`,
   }),
-  [ALT_NEW_JOB_DESCRIPTION] : new Request({
+  [ALT_NEW_JOB_DESCRIPTION]     : new Request({
     owner : ME_ALT,
     status: "Received",
     title : `Plugin: ${COMPANY_ALT} new job`,

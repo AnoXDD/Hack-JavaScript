@@ -54,7 +54,7 @@ const MAILS = {
   [INTRODUCTION]                   : new Mail({
     from   : NO_REPLY,
     to     : ME,
-    content: `Your new ${COMPANY_INTERNAL} password is ${PASSWORDS.PLAYER}`,
+    content: `Hi ${ME_COMPANY}: your new ${COMPANY_INTERNAL} password is ${PASSWORDS.PLAYER}. Feel free to give it to someone you don't trust if you want to be fired :)`,
   }),
   [RESIGNATION_BOOKED]             : new Mail({
     from   : ANONYMOUS,

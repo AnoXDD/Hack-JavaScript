@@ -2,7 +2,6 @@ import {RESET, UPDATE_CHECKPOINT} from "../enum/ActionType";
 import {TUTORIAL} from "../enum/Checkpoint";
 
 function updateCheckpoint(checkpoint, interfaceId, command) {
-  console.log(checkpoint, interfaceId, command);
 
   return checkpoint;
 }

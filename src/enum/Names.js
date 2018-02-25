@@ -24,8 +24,3 @@ export const COMPANY = "TAK";
 export const COMPANY_INTERNAL = "COMM";
 export const COMPANY_ALT = "MATIC";
 export const COMPANY_ALT_INTERNAL = "MACO";
-
-export const SSH_OUTPUT = {
-  fail: "Username and password does not match",
-};
-export const SSH_PROP = ["Password: ", true];
